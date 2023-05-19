@@ -97,8 +97,8 @@ VPM <-
 uf <-
   c("AC","AL","AM","AP","BA","CE","DF","ES","GO","MA","MG","MS","MT","PA","PB","PE","PI","PR","RJ","RN","RO","RR","RS","SC","SE","SP","TO")
 
-RegiaoIntermediaria <- sort(unique(geocod$Região.Intermediária.IBGE))
-RegiaoImediata <- sort(unique(geocod$Região.Imediata.IBGE))
+RegiaoIntermediaria <- unique(geocod$Região.Intermediária.IBGE)
+RegiaoImediata <- unique(geocod$Região.Imediata.IBGE)
 Substancia <- sort(unique(VPM$Substancia.AMB))
 Produto <- sort(unique(VPM$Produto.Comercializado))
 
@@ -246,8 +246,8 @@ MS_Produto_VPM_BR <-
              Ano.Base.Ral,
              Produto.Comercializado),
     "MS_Produto" = (Valor.Producao.Comercializada.Produto /
-                      VPM_Produto) |> na.omit()
-  )
+                      VPM_Produto)
+  ) |> na.omit()
 
 # _____ Mkt_Share_Produto_VPM_UF ----
 
@@ -261,8 +261,8 @@ MS_Produto_VPM_UF <-
       Produto.Comercializado
     ),
     "MS_Produto" = (Valor.Producao.Comercializada.Produto /
-                      VPM_Produto_UF) |> na.omit()
-  )
+                      VPM_Produto_UF)
+  ) |> na.omit()
 
 # _____ Mkt_Share_Produto_VPM_MESO ----
 
@@ -277,8 +277,8 @@ MS_Produto_VPM_MESO <-
       Produto.Comercializado
     ),
     "MS_Produto" = (Valor.Producao.Comercializada.Produto /
-                      VPM_Produto_MESO) |> na.omit()
-  )
+                      VPM_Produto_MESO)
+  ) |> na.omit()
 
 # _____ Mkt_Share_Produto_VPM_MICRO ----
 
@@ -293,8 +293,8 @@ MS_Produto_VPM_MICRO <-
       Produto.Comercializado
     ),
     "MS_Produto" = (Valor.Producao.Comercializada.Produto /
-                      VPM_Produto_MICRO) |> na.omit()
-  )
+                      VPM_Produto_MICRO)
+  ) |> na.omit()
 
 
 # _____ Mkt_Share_Substancia_VPM_BR ----
@@ -307,8 +307,8 @@ MS_Substancia_VPM_BR <-
     "MS_Substancia" = (
       Valor.Producao.Comercializada.Substancia.AMB /
         VPM_Substancia
-    ) |> na.omit()
-  )
+    )
+  ) |> na.omit()
 
 
 # _____ Mkt_Share_Substancia_VPM_UF ----
@@ -323,8 +323,8 @@ MS_Substancia_VPM_UF <-
     "MS_Substancia" = (
       Valor.Producao.Comercializada.Substancia.AMB /
         VPM_Substancia_UF
-    ) |> na.omit()
-  )
+    )
+  ) |> na.omit()
 
 # _____ Mkt_Share_Substancia_VPM_MESO ----
 
@@ -339,8 +339,8 @@ MS_Substancia_VPM_MESO <-
     "MS_Substancia" = (
       Valor.Producao.Comercializada.Substancia.AMB /
         VPM_Substancia_MESO
-    ) |> na.omit()
-  )
+    )
+  ) |> na.omit()
 
 # _____ Mkt_Share_Substancia_VPM_MICRO ----
 
@@ -350,13 +350,14 @@ MS_Substancia_VPM_MICRO <-
              CPF.CNPJ.Nucleos,
              Ano.Base.Ral,
              UF,
+             Região.Intermediária.IBGE,
              Região.Imediata.IBGE,
              Substancia.AMB),
     "MS_Substancia" = (
       Valor.Producao.Comercializada.Substancia.AMB /
         VPM_Substancia_MICRO
-    ) |> na.omit()
-  )
+    )
+  ) |> na.omit()
 
 
 

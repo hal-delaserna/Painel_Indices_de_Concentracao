@@ -25,15 +25,14 @@ body <-
     ),
     tabItems(
     
-# TAB_Graf_Extrativa_Divisao ---- 
+# tab_HHI ---- 
     tabItem(tabName = "tab_HHI"
+            ,tabsetPanel(
 
+#_____ tab_HHI BR ---- 
+              tabPanel("Brasil"
 
-###              INPUT BOX ----
-
-#__Box dos Inputs Substância-Produto----            
-
-#__Input Substância ----                  
+# __________Input Substância ----                  
  ,box(width = 2
       ,pickerInput(
         inputId = "id.Substancia.select"
@@ -41,28 +40,109 @@ body <-
         ,choices = list(`Substancia` = Substancia)
         ,multiple = FALSE
         ,selected = "Areia"
-        )
-#__Input UF ----                  
-      ,pickerInput(
-       inputId = "id.UF.select"
-      ,label = "UF"
-      ,choices = list(`UF` = uf)
-      ,multiple = FALSE
-    # ,selected = "TODAS"
-        ),actionButton(inputId = "id.Atualizar.button", label = "Ok")
+        ),actionButton(inputId = "id.Atualizar.button.BR", label = "Ok")
       )
     
 
 ,box(width = 5
-     ,reactableOutput(outputId = "id.HHI_Substancia_VPM_UF")
+     ,reactableOutput(outputId = "id.HHI_Substancia_VPM_BR")
      )
 
  ,box(width = 5
      ,height = 150
-     ,plotOutput(outputId = "id.Graf.Estoque.Trimestre")
+     ,plotOutput(outputId = "id.Graf.HHI_Substancia_VPM_BR")
+     )),
+
+
+#_____ tab_HHI UF ---- 
+tabPanel("UF"
+         
+# __________Input Substância ----
+,box(width = 2
+     ,pickerInput(
+       inputId = "id.Substancia.select.UF"
+       ,label = "Substância"
+       ,choices = list(`Substancia` = Substancia)
+       ,multiple = FALSE
+       ,selected = "Areia"
      )
-),
-  tabItem(tabName = "tab_CR4")
+# __________ Input UF ----
+     ,pickerInput(
+       inputId = "id.UF.select"
+       ,label = "UF"
+       ,choices = list(`UF` = uf)
+       ,multiple = FALSE
+       # ,selected = "TODAS"
+     ),actionButton(inputId = "id.Atualizar.button.UF", label = "Ok")
+)
+
+
+,box(width = 5
+     ,reactableOutput(outputId = "id.HHI_Substancia_VPM_UF")
+)
+
+,box(width = 5
+     ,height = 150
+     ,plotOutput(outputId = "id.Graf.HHI_Substancia_VPM_UF")
+)),
+
+
+
+
+#_____ tab_HHI MESO ---- 
+tabPanel("Mesorregião"
+         
+# __________Input Substância ----
+,box(width = 2
+     ,pickerInput(
+       inputId = "id.Substancia.select.MESO"
+       ,label = "Substância"
+       ,choices = list(`Substancia` = Substancia)
+       ,multiple = FALSE
+       ,selected = "Areia"
+     )
+# __________ Input UF.MESO ----
+     ,pickerInput(
+       inputId = "id.UF.MESO.select"
+       ,label = "UF"
+       ,choices = list(`UF` = uf)
+       ,multiple = FALSE
+       # ,selected = "TODAS"
+     )
+# __________ Input MESO ----
+     ,pickerInput(
+       inputId = "id.MESO.select"
+       ,label = "Mesorregião"
+       ,choices = list(`Mesorregião` = RegiaoIntermediaria)
+       ,multiple = FALSE
+   # ,selected = "TODAS"
+ ),actionButton(inputId = "id.Atualizar.button.MESO", label = "Ok")
+ )
+
+
+,box(width = 5
+     ,reactableOutput(outputId = "id.HHI_Substancia_VPM_MESO")
+)
+
+,box(width = 5
+     ,height = 150
+     ,plotOutput(outputId = "id.Graf.HHI_Substancia_VPM_MESO")
+))
+
+
+
+))
+
+
+
+
+
+
+
+
+
+# tab_HHI ---- 
+,tabItem(tabName = "tab_CR4")
 ))
 
 
