@@ -49,8 +49,8 @@ body <-
      )
 
  ,box(width = 5
-     ,height = 150
-     ,plotOutput(outputId = "id.Graf.HHI_Substancia_VPM_BR")
+     ,height = '180px'
+     ,plotOutput(outputId = "id.Graf.HHI_Substancia_VPM_BR", height = "150px")
      )),
 
 
@@ -82,8 +82,8 @@ tabPanel("UF"
 )
 
 ,box(width = 5
-     ,height = 150
-     ,plotOutput(outputId = "id.Graf.HHI_Substancia_VPM_UF")
+     ,height = '180px'
+     ,plotOutput(outputId = "id.Graf.HHI_Substancia_VPM_UF", height = "150px")
 )),
 
 
@@ -125,8 +125,8 @@ tabPanel("Mesorregião"
 )
 
 ,box(width = 5
-     ,height = 150
-     ,plotOutput(outputId = "id.Graf.HHI_Substancia_VPM_MESO")
+     ,height = '180px'
+     ,plotOutput(outputId = "id.Graf.HHI_Substancia_VPM_MESO", height = "150px")
 ))
 
 

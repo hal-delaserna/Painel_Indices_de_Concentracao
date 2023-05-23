@@ -49,7 +49,7 @@ VPM$CPF.CNPJ.Nucleos <-
 
 colnames(VPM) <-
   colnames(VPM) |> iconv(from = "UTF-8", to = "ASCII//TRANSLIT")
-colnames(VPM)[c(4,7)] <- c("UF","Valor.Producao.Comercializada.Produto")
+colnames(VPM)[c(4,9)] <- c("UF","Valor.Producao.Comercializada.Produto")
 
 # VPM$Substancia.RAL <- 
 #   VPM$Substancia.RAL |> iconv(from = "UTF-8", to = "ASCII//TRANSLIT")
@@ -191,7 +191,15 @@ VPM <-
       group_by(
         VPM,
         id_ANO_SUBSTANCIA),  
-      "VPM_Substancia" = sum(Valor.Producao.Comercializada.Substancia.AMB, na.rm = T)),
+      "VPM_Substancia" = sum(Valor.Producao.Comercializada.Substancia.AMB, na.rm = T),
+      "p" = median(Valor.Producao.Comercializada.Produto/
+                     Quantidade.Producao.Comercializada...Produto, na.rm = T),
+      "SD" = sd(Valor.Producao.Comercializada.Produto/
+                  Quantidade.Producao.Comercializada...Produto, na.rm = T),
+      "CV" = (sd(Valor.Producao.Comercializada.Produto/
+                   Quantidade.Producao.Comercializada...Produto, na.rm = T))/
+        (median(Valor.Producao.Comercializada.Produto/
+                  Quantidade.Producao.Comercializada...Produto, na.rm = T))),
     by = c('id_ANO_SUBSTANCIA'))
 
 
@@ -306,8 +314,7 @@ MS_Substancia_VPM_BR <-
              Substancia.AMB),
     "MS_Substancia" = (
       Valor.Producao.Comercializada.Substancia.AMB /
-        VPM_Substancia
-    )
+        VPM_Substancia)
   ) |> na.omit()
 
 

@@ -14,7 +14,7 @@
           "N" = length(CPF.CNPJ.Nucleos)
         ) |> arrange(desc(Ano.Base.Ral))
       }
-      )       
+      )  
     
 #_____ HHI_Substancia_VPM_UF ----
     HHI_Substancia_VPM_UF <-
