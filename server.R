@@ -11,7 +11,10 @@
             MS_Substancia_VPM_BR[MS_Substancia_VPM_BR$Substancia.AMB == input$id.Substancia.select, ],
             Ano.Base.Ral),
           "HHI" = round(10000*hhi(MS_Substancia, na.rm = TRUE),0),
-          "N" = length(CPF.CNPJ.Nucleos)
+          "N" = length(CPF.CNPJ.Nucleos),
+          "p" = unique(p_Substancia),
+          "SD" = unique(SD_Substancia),
+          "CV" = unique(CV_Substancia)
         ) |> arrange(desc(Ano.Base.Ral))
       }
       )  
@@ -25,7 +28,10 @@
                                  MS_Substancia_VPM_UF$UF == input$id.UF.select, ],
           Ano.Base.Ral),
         "HHI" = round(10000*hhi(MS_Substancia, na.rm = TRUE),0),
-        "N" = length(CPF.CNPJ.Nucleos)
+        "N" = length(CPF.CNPJ.Nucleos),
+        "p" = unique(p_Substancia),
+        "SD" = unique(SD_Substancia),
+        "CV" = unique(CV_Substancia)
       ) |> arrange(desc(Ano.Base.Ral))
         }
       )   
@@ -39,7 +45,10 @@
                                      MS_Substancia_VPM_MESO$Região.Intermediária.IBGE == input$id.MESO.select, ],
             Ano.Base.Ral),
           "HHI" = round(10000*hhi(MS_Substancia, na.rm = TRUE),0),
-          "N" = length(CPF.CNPJ.Nucleos)
+          "N" = length(CPF.CNPJ.Nucleos),
+          "p" = unique(p_Substancia),
+          "SD" = unique(SD_Substancia),
+          "CV" = unique(CV_Substancia)
         ) |> arrange(desc(Ano.Base.Ral))
       }
       )   

@@ -33,7 +33,8 @@ body <-
               tabPanel("Brasil"
 
 # __________Input Substância ----                  
- ,box(width = 2
+ ,fluidRow(
+   box(width = 2
       ,pickerInput(
         inputId = "id.Substancia.select"
         ,label = "Substância"
@@ -44,14 +45,23 @@ body <-
       )
     
 
-,box(width = 5
+,box(width = 10
      ,reactableOutput(outputId = "id.HHI_Substancia_VPM_BR")
-     )
+     ))
 
- ,box(width = 5
+ ,fluidRow(
+   box(width = 4
      ,height = '180px'
      ,plotOutput(outputId = "id.Graf.HHI_Substancia_VPM_BR", height = "150px")
-     )),
+     )
+   ,box(width = 4
+        ,height = '180px'
+   )
+   ,box(width = 4
+        ,height = '180px'
+   ))
+
+),
 
 
 #_____ tab_HHI UF ---- 
