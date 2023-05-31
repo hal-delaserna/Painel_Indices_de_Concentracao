@@ -102,6 +102,9 @@ RegiaoImediata <- unique(geocod$Região.Imediata.IBGE)
 Substancia <- sort(unique(VPM$Substancia.AMB))
 Produto <- sort(unique(VPM$Produto.Comercializado))
 
+Titulo <- 
+  paste0("Preços Reais (base ",  max(VPM$Ano.Base.Ral), ")")
+
 
 
 # Impondo IDs de agregação ----
@@ -131,89 +134,40 @@ VPM$id_ANO_PRODUTO_MESO <-
 VPM$id_ANO_PRODUTO_MICRO <- 
   paste0(VPM$Ano.Base.Ral, VPM$Produto.Comercializado, VPM$Cod_RgImed) |> gsub(pattern = " ", replacement = "")
 
-# Colunas de VPMs setoriais-regionais ----
 
-# # _____ VPM_Produto ----  
-# VPM <- 
-#   left_join(
-#     filter(VPM, Valor.Producao.Comercializada.Produto > 0),
-#     summarise(
-#       group_by(
-#         VPM,
-#         id_ANO_PRODUTO),  
-#       "VPM_Produto" = sum(Valor.Producao.Comercializada.Produto, na.rm = T),
-#     "p_Produto" = median(Valor.Producao.Comercializada.Produto/
-#                    Quantidade.Producao.Comercializada...Produto, na.rm = T),
-#     "SD_Produto" = sd(Valor.Producao.Comercializada.Produto/
-#                 Quantidade.Producao.Comercializada...Produto, na.rm = T),
-#     "CV_Produto" = (sd(Valor.Producao.Comercializada.Produto/
-#                  Quantidade.Producao.Comercializada...Produto, na.rm = T))/
-#       (median(Valor.Producao.Comercializada.Produto/
-#                 Quantidade.Producao.Comercializada...Produto, na.rm = T))),
-#     by = c('id_ANO_PRODUTO'))
-# 
-# 
-# # _____ VPM_Produto_UF ----
-# VPM <- 
-#   left_join(
-#     VPM,
-#     summarise(
-#       group_by(
-#         VPM,
-#         id_ANO_PRODUTO_UF),  
-#       "VPM_Produto_UF" = sum(Valor.Producao.Comercializada.Produto, na.rm = T),
-#     "p_Produto_UF" = median(Valor.Producao.Comercializada.Produto/
-#                            Quantidade.Producao.Comercializada...Produto, na.rm = T),
-#     "SD_Produto_UF" = sd(Valor.Producao.Comercializada.Produto/
-#                         Quantidade.Producao.Comercializada...Produto, na.rm = T),
-#     "CV_Produto_UF" = (sd(Valor.Producao.Comercializada.Produto/
-#                          Quantidade.Producao.Comercializada...Produto, na.rm = T))/
-#       (median(Valor.Producao.Comercializada.Produto/
-#                 Quantidade.Producao.Comercializada...Produto, na.rm = T))),
-#     by = c('id_ANO_PRODUTO_UF'))
-# 
-# 
-# 
-# # _____ VPM_Produto_Meso ----
-# VPM <- 
-#   left_join(
-#     VPM,
-#     summarise(
-#       group_by(
-#         VPM,
-#         id_ANO_PRODUTO_MESO),  
-#       "VPM_Produto_MESO" = sum(Valor.Producao.Comercializada.Produto, na.rm = T),
-#     "p_Produto_MESO" = median(Valor.Producao.Comercializada.Produto/
-#                               Quantidade.Producao.Comercializada...Produto, na.rm = T),
-#     "SD_Produto_MESO" = sd(Valor.Producao.Comercializada.Produto/
-#                            Quantidade.Producao.Comercializada...Produto, na.rm = T),
-#     "CV_Produto_MESO" = (sd(Valor.Producao.Comercializada.Produto/
-#                             Quantidade.Producao.Comercializada...Produto, na.rm = T))/
-#       (median(Valor.Producao.Comercializada.Produto/
-#                 Quantidade.Producao.Comercializada...Produto, na.rm = T))),
-#     by = c('id_ANO_PRODUTO_MESO'))
-# 
-# 
-# 
-# # _____ VPM_Produto_MICRO ----
-# VPM <- 
-#   left_join(
-#     VPM,
-#     summarise(
-#       group_by(
-#         VPM,
-#         id_ANO_PRODUTO_MICRO),  
-#       "VPM_Produto_MICRO" = sum(Valor.Producao.Comercializada.Produto, na.rm = T),
-#     "p_Produto_MICRO" = median(Valor.Producao.Comercializada.Produto/
-#                                 Quantidade.Producao.Comercializada...Produto, na.rm = T),
-#     "SD_Produto_MICRO" = sd(Valor.Producao.Comercializada.Produto/
-#                              Quantidade.Producao.Comercializada...Produto, na.rm = T),
-#     "CV_Produto_MICRO" = (sd(Valor.Producao.Comercializada.Produto/
-#                               Quantidade.Producao.Comercializada...Produto, na.rm = T))/
-#       (median(Valor.Producao.Comercializada.Produto/
-#                 Quantidade.Producao.Comercializada...Produto, na.rm = T))),
-#     by = c('id_ANO_PRODUTO_MICRO'))
 
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#%%                                           %%%
+###        Carregamento IPA ----
+#%%                                           %%%
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+IPA <- # ipeadatar::ipeadata(code = "IGP_IPAI")
+  read.table(file = "./data/IPA.csv", header = TRUE, sep = ";", 
+             quote = "", dec = ".")
+
+IPA$year <- 
+  lubridate::year(IPA$date)
+
+IPA <- 
+  IPA[,c("year", "value")]
+
+
+IPA$fator <- NA
+for (i in 1:nrow(IPA)) {
+  
+  # fator de deflação
+  IPA$fator[i] <- 
+    as.numeric(
+      IPA[IPA$year == max(IPA$year),]$value/
+        IPA[i,c("value")])
+}
+# unindo VPM ao IPA
+  VPM <- 
+    left_join(VPM, IPA, by = c("Ano.Base.Ral" = "year"))
+
+
+# Colunas de VPMs setoriais-regionais --------------------------------------------
 
 # _____ VPM_Substancia ----
 VPM <- 
@@ -234,6 +188,8 @@ VPM <-
                 Quantidade.Producao.Comercializada...Substancia, na.rm = T)))|> round(2)),
     by = c('id_ANO_SUBSTANCIA'))
 
+  VPM$p_Substancia_Real <- 
+    round(VPM$p_Substancia*VPM$fator, digits = 2)
 
 
 # _____ VPM_Substancia_UF ----
@@ -255,6 +211,8 @@ VPM <-
                 Quantidade.Producao.Comercializada...Substancia, na.rm = T)))|> round(2)),
     by = c('id_ANO_SUBSTANCIA_UF'))
 
+  VPM$p_Substancia_UF_Real <- 
+    round(VPM$p_Substancia_UF*VPM$fator,2)
 
 # _____ VPM_Substancia_Meso ----
 VPM <- 
@@ -274,6 +232,10 @@ VPM <-
       (median(Valor.Producao.Comercializada.Substancia.AMB/
                 Quantidade.Producao.Comercializada...Substancia, na.rm = T)))|> round(2)),
     by = c('id_ANO_SUBSTANCIA_MESO'))
+  
+  VPM$p_Substancia_MESO_Real <- 
+    round(VPM$p_Substancia_MESO*VPM$fator,2)
+  
 
 # _____ VPM_Substancia_Micro ----
 VPM <- 
@@ -294,81 +256,10 @@ VPM <-
                 Quantidade.Producao.Comercializada...Substancia, na.rm = T)))|> round(2)),
     by = c('id_ANO_SUBSTANCIA_MICRO'))
 
-
-
-
-
-
-# MARKET SHARE ----
-
-# 
-# # _____ Mkt_Share_Produto_VPM_BR ----
-# MS_Produto_VPM_BR <-
-#   summarise(
-#     group_by(VPM,
-#              CPF.CNPJ.Nucleos,
-#              Ano.Base.Ral,
-#              Produto.Comercializado),
-#     "MS_Produto" = (Valor.Producao.Comercializada.Produto /
-#                       VPM_Produto),
-#     "p_Produto" = unique(p_Produto),
-#     "SD_Produto" = unique(SD_Produto),
-#     "CV_Produto" = unique(CV_Produto)
-#     ) |> na.omit()
-# 
-# # _____ Mkt_Share_Produto_VPM_UF ----
-# 
-# MS_Produto_VPM_UF <-
-#   summarise(
-#     group_by(
-#       VPM,
-#       CPF.CNPJ.Nucleos,
-#       Ano.Base.Ral,
-#       UF,
-#       Produto.Comercializado
-#     ),
-#     "MS_Produto" = (Valor.Producao.Comercializada.Produto /
-#                       VPM_Produto_UF)
-#     ,"SD_Produto" = unique(SD_Produto_UF, na.rm = T)
-#     ,"CV_Produto" = unique(CV_Produto_UF, na.rm = T)
-#   ) |> na.omit()
-# 
-# # _____ Mkt_Share_Produto_VPM_MESO ----
-# 
-# MS_Produto_VPM_MESO <-
-#   summarise(
-#     group_by(
-#       VPM,
-#       CPF.CNPJ.Nucleos,
-#       Ano.Base.Ral,
-#       UF,
-#       Região.Intermediária.IBGE,
-#       Produto.Comercializado
-#     ),
-#     "MS_Produto" = (Valor.Producao.Comercializada.Produto /
-#                       VPM_Produto_MESO)
-#     ,"SD_Produto" = unique(SD_Produto_MESO, na.rm = T)
-#     ,"CV_Produto" = unique(CV_Produto_MESO, na.rm = T)
-#   ) |> na.omit()
-# 
-# # _____ Mkt_Share_Produto_VPM_MICRO ----
-# 
-# MS_Produto_VPM_MICRO <-
-#   summarise(
-#     group_by(
-#       VPM,
-#       CPF.CNPJ.Nucleos,
-#       Ano.Base.Ral,
-#       UF,
-#       Região.Imediata.IBGE,
-#       Produto.Comercializado
-#     ),
-#     "MS_Produto" = (Valor.Producao.Comercializada.Produto /
-#                       VPM_Produto_MICRO)
-#     ,"SD_Produto" = unique(SD_Produto_MICRO, na.rm = T)
-#     ,"CV_Produto" = unique(CV_Produto_MICRO, na.rm = T)
-#   ) |> na.omit()
-
+  VPM$p_Substancia_MICRO_Real <- 
+    round(VPM$p_Substancia_MICRO*VPM$fator,2)
+  
+# MARKET SHARE --------------------------------------------
 
 # _____ Mkt_Share_Substancia_VPM_BR ----
 MS_Substancia_VPM_BR <-
@@ -383,6 +274,7 @@ MS_Substancia_VPM_BR <-
     ,"p_Substancia" = unique(p_Substancia, na.rm = T)
     ,"SD_Substancia" = unique(SD_Substancia, na.rm = T)
     ,"CV_Substancia" = unique(CV_Substancia, na.rm = T)
+    ,"p_Substancia_Real" = unique(p_Substancia_Real, na.rm = T)
   ) |> na.omit()
 
 
@@ -401,6 +293,7 @@ MS_Substancia_VPM_UF <-
     ,"p_Substancia" = unique(p_Substancia_UF, na.rm = T)
     ,"SD_Substancia" = unique(SD_Substancia_UF, na.rm = T)
     ,"CV_Substancia" = unique(CV_Substancia_UF, na.rm = T)
+    ,"p_Substancia_Real" = unique(p_Substancia_UF_Real, na.rm = T)
   ) |> na.omit()
 
 # _____ Mkt_Share_Substancia_VPM_MESO ----
@@ -419,6 +312,7 @@ MS_Substancia_VPM_MESO <-
     ,"p_Substancia" = unique(p_Substancia_MESO, na.rm = T)
     ,"SD_Substancia" = unique(SD_Substancia_MESO, na.rm = T)
     ,"CV_Substancia" = unique(CV_Substancia_MESO, na.rm = T)
+    ,"p_Substancia_Real" = unique(p_Substancia_MESO_Real, na.rm = T)
   ) |> na.omit()
 
 # _____ Mkt_Share_Substancia_VPM_MICRO ----
@@ -438,29 +332,11 @@ MS_Substancia_VPM_MICRO <-
     ,"p_Substancia" = unique(p_Substancia_MICRO, na.rm = T)
     ,"SD_Substancia" = unique(SD_Substancia_MICRO, na.rm = T)
     ,"CV_Substancia" = unique(CV_Substancia_MICRO, na.rm = T)
+    ,"p_Substancia_Real" = unique(p_Substancia_MICRO_Real, na.rm = T)
   ) |> na.omit()
 
 
-rm(VPM)
-
-
-#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-#%%                                           %%%
-###        Carregamento CNAE 2.0 ----
-#%%                                           %%%
-#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-# CNAE_Subclasses_2_0 <-
-#   read.table(file = './data/CNAE_2_0.csv', 
-#              header = TRUE, sep = "\t", stringsAsFactors = FALSE, 
-#              colClasses = c('character'), 
-#              fileEncoding = "latin1")
-# 
-# colnames(CNAE_Subclasses_2_0) <- 
-#   c("subclasse", "subclasse.descrição", "classe", 
-#     "classe.descrição", "grupo", "grupo.descrição", "divisão", 
-#     "divisão.descrição", "seção", "seção.descrição", "grupamento", 
-#     "grande.Grupamento")
+# rm(VPM)
 
 
 

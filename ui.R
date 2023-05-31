@@ -1,7 +1,4 @@
-
-
 # HEADER ----
-
 header <-
   dashboardHeader(title = "Painel de Índices de Concentração", 
                   titleWidth = 350)
@@ -43,32 +40,35 @@ body <-
         ,selected = "Areia"
         ),actionButton(inputId = "id.Atualizar.button.BR", label = "Ok")
       )
-    
-
-,box(width = 10
+,box(width = 8
      ,reactableOutput(outputId = "id.HHI_Substancia_VPM_BR")
      ))
-
  ,fluidRow(
-   box(width = 4
-     ,height = '180px'
-     ,plotOutput(outputId = "id.Graf.HHI_Substancia_VPM_BR", height = "150px")
-     )
-   ,box(width = 4
-        ,height = '180px'
+   box(title = "Índice Hirchsman-Herfindahl (HHI)"
+       ,solidHeader = TRUE
+       ,status = "warning"
+       ,width = 4
+       ,height = '215px'
+       ,plotOutput(outputId = "id.Graf.HHI_Substancia_VPM_BR", height = "150px"))
+   ,box(title = Titulo
+        ,solidHeader = TRUE
+        ,status = "info"
+        ,width = 4
+        ,height = '215px'
+        ,plotOutput(outputId = "id.Graf.preco_Substancia_VPM_BR", height = "150px"))
+   ,box(title = "Coeficiente de Variação (preço)"
+        ,solidHeader = TRUE
+        ,status = "info"
+        ,width = 4
+        ,height = '215px'
+        ,plotOutput(outputId = "id.Graf.CV_Substancia_VPM_BR", height = "150px"))
    )
-   ,box(width = 4
-        ,height = '180px'
-   ))
-
 ),
-
-
 #_____ tab_HHI UF ---- 
 tabPanel("UF"
-         
 # __________Input Substância ----
-,box(width = 2
+,fluidRow(
+   box(width = 2
      ,pickerInput(
        inputId = "id.Substancia.select.UF"
        ,label = "Substância"
@@ -81,79 +81,136 @@ tabPanel("UF"
        inputId = "id.UF.select"
        ,label = "UF"
        ,choices = list(`UF` = uf)
-       ,multiple = FALSE
-       # ,selected = "TODAS"
-     ),actionButton(inputId = "id.Atualizar.button.UF", label = "Ok")
+       ,multiple = FALSE)
+,actionButton(inputId = "id.Atualizar.button.UF", label = "Ok")
 )
-
-
-,box(width = 5
+,box(width = 8
      ,reactableOutput(outputId = "id.HHI_Substancia_VPM_UF")
+))
+,fluidRow(
+  box(title = "Índice Hirchsman-Herfindahl (HHI)"
+      ,solidHeader = TRUE
+      ,status = "warning"
+      ,width = 4
+      ,height = '215px'
+      ,plotOutput(outputId = "id.Graf.HHI_Substancia_VPM_UF", height = "150px"))
+  ,box(title = Titulo
+       ,solidHeader = TRUE
+       ,status = "info"
+       ,width = 4
+       ,height = '215px'
+       ,plotOutput(outputId = "id.Graf.preco_Substancia_VPM_UF", height = "150px"))
+  ,box(title = "Coeficiente de Variação (preço)"
+       ,solidHeader = TRUE
+       ,status = "info"
+       ,width = 4
+       ,height = '215px'
+       ,plotOutput(outputId = "id.Graf.CV_Substancia_VPM_UF", height = "150px"))
 )
-
-,box(width = 5
-     ,height = '180px'
-     ,plotOutput(outputId = "id.Graf.HHI_Substancia_VPM_UF", height = "150px")
-)),
-
-
-
-
+),
 #_____ tab_HHI MESO ---- 
 tabPanel("Mesorregião"
-         
 # __________Input Substância ----
-,box(width = 2
+,fluidRow(
+  box(width = 2
      ,pickerInput(
        inputId = "id.Substancia.select.MESO"
        ,label = "Substância"
        ,choices = list(`Substancia` = Substancia)
        ,multiple = FALSE
-       ,selected = "Areia"
-     )
+       ,selected = "Areia")
 # __________ Input UF.MESO ----
      ,pickerInput(
        inputId = "id.UF.MESO.select"
        ,label = "UF"
        ,choices = list(`UF` = uf)
-       ,multiple = FALSE
-       # ,selected = "TODAS"
-     )
+       ,multiple = FALSE)
 # __________ Input MESO ----
      ,pickerInput(
        inputId = "id.MESO.select"
        ,label = "Mesorregião"
        ,choices = list(`Mesorregião` = RegiaoIntermediaria)
-       ,multiple = FALSE
-   # ,selected = "TODAS"
- ),actionButton(inputId = "id.Atualizar.button.MESO", label = "Ok")
+       ,multiple = FALSE)
+,actionButton(inputId = "id.Atualizar.button.MESO", label = "Ok")
  )
-
-
-,box(width = 5
-     ,reactableOutput(outputId = "id.HHI_Substancia_VPM_MESO")
+,box(width = 8
+     ,reactableOutput(outputId = "id.HHI_Substancia_VPM_MESO"))
+)
+,fluidRow(
+  box(title = "Índice Hirchsman-Herfindahl (HHI)"
+      ,solidHeader = TRUE
+      ,status = "warning"
+      ,width = 4
+      ,height = '215px'
+      ,plotOutput(outputId = "id.Graf.HHI_Substancia_VPM_MESO", height = "150px"))
+  ,box(title = Titulo
+       ,solidHeader = TRUE
+       ,status = "info"
+       ,width = 4
+       ,height = '215px'
+       ,plotOutput(outputId = "id.Graf.preco_Substancia_VPM_MESO", height = "150px"))
+  ,box(title = "Coeficiente de Variação (preço)"
+       ,solidHeader = TRUE
+       ,status = "info"
+       ,width = 4
+       ,height = '215px'
+       ,plotOutput(outputId = "id.Graf.CV_Substancia_VPM_MESO", height = "150px"))
+)
+),
+#_____ tab_HHI MICRO ---- 
+tabPanel("Microrregião"
+         # __________Input Substância ----
+         ,fluidRow(
+           box(width = 2
+               ,pickerInput(
+                 inputId = "id.Substancia.select.MICRO"
+                 ,label = "Substância"
+                 ,choices = list(`Substancia` = Substancia)
+                 ,multiple = FALSE
+                 ,selected = "Areia")
+               # __________ Input UF.MICRO ----
+               ,pickerInput(
+                 inputId = "id.UF.MICRO.select"
+                 ,label = "UF"
+                 ,choices = list(`UF` = uf)
+                 ,multiple = FALSE)
+               # __________ Input MICRO ----
+               ,pickerInput(
+                 inputId = "id.MICRO.select"
+                 ,label = "Microrregião"
+                 ,choices = list(`Microrregião` = RegiaoImediata)
+                 ,multiple = FALSE)
+               ,actionButton(inputId = "id.Atualizar.button.MICRO", label = "Ok")
+           )
+           ,box(width = 8
+                ,reactableOutput(outputId = "id.HHI_Substancia_VPM_MICRO"))
+         )
+         ,fluidRow(
+           box(title = "Índice Hirchsman-Herfindahl (HHI)"
+               ,solidHeader = TRUE
+               ,status = "warning"
+               ,width = 4
+               ,height = '215px'
+               ,plotOutput(outputId = "id.Graf.HHI_Substancia_VPM_MICRO", height = "150px"))
+           ,box(title = Titulo
+                ,solidHeader = TRUE
+                ,status = "info"
+                ,width = 4
+                ,height = '215px'
+                ,plotOutput(outputId = "id.Graf.preco_Substancia_VPM_MICRO", height = "150px"))
+           ,box(title = "Coeficiente de Variação (preço)"
+                ,solidHeader = TRUE
+                ,status = "info"
+                ,width = 4
+                ,height = '215px'
+                ,plotOutput(outputId = "id.Graf.CV_Substancia_VPM_MICRO", height = "150px"))
+         )
+         )
 )
 
-,box(width = 5
-     ,height = '180px'
-     ,plotOutput(outputId = "id.Graf.HHI_Substancia_VPM_MESO", height = "150px")
-))
-
-
-
-))
-
-
-
-
-
-
-
-
-
-# tab_HHI ---- 
+# tab_CR4 ---- 
 ,tabItem(tabName = "tab_CR4")
-))
+)))
 
 
 # dashboardPage ----
