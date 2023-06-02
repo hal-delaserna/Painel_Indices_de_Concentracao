@@ -1,18 +1,16 @@
 # HEADER ----
 header <-
-  dashboardHeader(title = "Painel de Índices de Concentração", 
+  dashboardHeader(title = "Painel de Índices de Concentração de Mercado", 
                   titleWidth = 350)
-
 # SIDEBAR ----
 
 sidebar <- dashboardSidebar(width = 200,
   sidebarMenu(
     menuItem("Hirchsman-Herfindahl (HHI)",
-             tabName = "tab_HHI")
+             menuSubItem(" Produção Bruta", tabName = "tab_HHI_Bruta", icon = icon("truck-monster")),
+             menuSubItem(" Produção Beneficiada", tabName = "tab_HHI_Beneficiada", icon = icon("industry")))
    ,menuItem("Relação de Concentração (CR4)", 
-             tabName = "tab_CR4")
-    ))
-
+             tabName = "tab_CR4")))
 # BODY ----
 
 body <-
@@ -22,8 +20,8 @@ body <-
     ),
     tabItems(
     
-# tab_HHI ---- 
-    tabItem(tabName = "tab_HHI"
+# tab_HHI_Bruta ---- 
+    tabItem(tabName = "tab_HHI_Bruta"
             ,tabsetPanel(
 
 #_____ tab_HHI BR ---- 
@@ -206,11 +204,16 @@ tabPanel("Microrregião"
                 ,plotOutput(outputId = "id.Graf.CV_Substancia_PBruta_MICRO", height = "150px"))
          )
          )
-)
+))
+
+# tab_HHI_Beneficiada ---- 
+,tabItem(tabName = "tab_HHI_Beneficiada"
+         ,fluidRow(box(width = 2)))
 
 # tab_CR4 ---- 
-,tabItem(tabName = "tab_CR4")
-)))
+,tabItem(tabName = "tab_CR4"
+         ,fluidRow(box(width = 2)))
+))
 
 
 # dashboardPage ----

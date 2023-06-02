@@ -25,40 +25,11 @@ PBruta <-
     fileEncoding = 'UTF-8', encoding = 'UTF-8')
 
 
-PBruta <- 
-  PBruta[PBruta$Ano.Base.Ral > 2011 & PBruta$Ano.Base.Ral < 2022,]
-
-
-PBruta$id_mun_UF <-
-  paste(
-    PBruta$Município.Mina |> 
-      gsub(pattern = "-| {1,}|'|\"", replacement = "") |> 
-      iconv(from = 'UTF-8', to = 'ASCII//TRANSLIT') |> 
-      toupper(),
-    PBruta$UF.Mina, sep = "_")
-
-# Impondo coluna de núcleos CNPJs 
-
-PBruta$CPF.CNPJ.Nucleos <- 
-  ifelse(str_length(PBruta$CPF.CNPJ.Titular) > 14,
-         str_extract(PBruta$CPF.CNPJ.Titular, "^.{1,10}"),
-         PBruta$CPF.CNPJ.Titular
-  )
-
 # Ajustes das variáveis ----
 
 colnames(PBruta) <-
   colnames(PBruta) |> iconv(from = "UTF-8", to = "ASCII//TRANSLIT")
 colnames(PBruta)[c(6,5)] <- c("UF","Municipio")
-
-# PBruta$Substancia.RAL <- 
-#   PBruta$Substancia.RAL |> iconv(from = "UTF-8", to = "ASCII//TRANSLIT")
-
-PBruta$Substancia.AMB <-
-  PBruta$Substancia.AMB |> iconv(from = "UTF-8", to = "ASCII//TRANSLIT")
-
-PBruta$Municipio <-
-  PBruta$Municipio |> iconv(from = "UTF-8", to = "ASCII//TRANSLIT")
 
 
 # Formatando colunas de grandezas como numeric
@@ -71,6 +42,48 @@ PBruta$Valor.Venda.com.Ajuste.por.Minerio <-
 
 PBruta$Quantidade.Venda.com.Ajuste <- 
   PBruta$Quantidade.Venda.com.Ajuste |> as.numeric()
+
+
+PBruta$p <- 
+  round(
+    (PBruta$Valor.Venda.com.Ajuste.por.Minerio/
+      PBruta$Quantidade.Venda.com.Ajuste), 2)
+  
+
+
+# Subsetting ----
+PBruta <- 
+  PBruta[PBruta$Ano.Base.Ral > 2011 & 
+           PBruta$Ano.Base.Ral < 2022 & 
+           PBruta$p > 0 & is.na(PBruta$p) == FALSE,]
+
+
+PBruta$id_mun_UF <-
+  paste(
+    PBruta$Municipio |> 
+      gsub(pattern = "-| {1,}|'|\"", replacement = "") |> 
+      iconv(from = 'UTF-8', to = 'ASCII//TRANSLIT') |> 
+      toupper(),
+    PBruta$UF, sep = "_")
+
+# Impondo coluna de núcleos CNPJs 
+
+PBruta$CPF.CNPJ.Nucleos <- 
+  ifelse(str_length(PBruta$CPF.CNPJ.Titular) > 14,
+         str_extract(PBruta$CPF.CNPJ.Titular, "^.{1,10}"),
+         PBruta$CPF.CNPJ.Titular
+  )
+
+
+
+# PBruta$Substancia.RAL <- 
+#   PBruta$Substancia.RAL |> iconv(from = "UTF-8", to = "ASCII//TRANSLIT")
+
+PBruta$Substancia.AMB <-
+  PBruta$Substancia.AMB |> iconv(from = "UTF-8", to = "ASCII//TRANSLIT")
+
+PBruta$Municipio <-
+  PBruta$Municipio |> iconv(from = "UTF-8", to = "ASCII//TRANSLIT")
 
 
 
@@ -150,7 +163,7 @@ for (i in 1:nrow(IPA)) {
 
 # Colunas de PBrutas setoriais-regionais --------------------------------------------
 
-# _____ PBruta_Substancia ----
+# _____ Venda_PBruta_Substancia ----
 PBruta <- 
   left_join(
     PBruta,
@@ -158,15 +171,10 @@ PBruta <-
       group_by(
         PBruta,
         id_ANO_SUBSTANCIA),  
-    "PBruta_Substancia" = sum(Valor.Venda.com.Ajuste.por.Minerio, na.rm = T),
-    "p_Substancia" = median(Valor.Venda.com.Ajuste.por.Minerio/
-                                 Quantidade.Venda.com.Ajuste, na.rm = T) |> round(2),
-    "SD_Substancia" = sd(Valor.Venda.com.Ajuste.por.Minerio/
-                              Quantidade.Venda.com.Ajuste, na.rm = T) |> round(2),
-    "CV_Substancia" = ((sd(Valor.Venda.com.Ajuste.por.Minerio/
-                               Quantidade.Venda.com.Ajuste, na.rm = T))/
-      (median(Valor.Venda.com.Ajuste.por.Minerio/
-                Quantidade.Venda.com.Ajuste, na.rm = T)))|> round(2)),
+      "Venda_PBruta_Substancia" = sum(Valor.Venda.com.Ajuste.por.Minerio, na.rm = T),
+      "p_Substancia" = median(p, na.rm = T),
+      "SD_Substancia" = sd(p, na.rm = T)|> round(2),
+      "CV_Substancia" = ((sd(p, na.rm = T))/(median(p, na.rm = T)))|> round(2)),
     by = c('id_ANO_SUBSTANCIA'))
 
   PBruta$p_Substancia_Real <- 
@@ -181,21 +189,16 @@ PBruta <-
       group_by(
         PBruta,
         id_ANO_SUBSTANCIA_UF),  
-    "PBruta_Substancia_UF" = sum(Valor.Venda.com.Ajuste.por.Minerio, na.rm = T),
-    "p_Substancia_UF" = median(Valor.Venda.com.Ajuste.por.Minerio/
-                              Quantidade.Venda.com.Ajuste, na.rm = T)|> round(2),
-    "SD_Substancia_UF" = sd(Valor.Venda.com.Ajuste.por.Minerio/
-                           Quantidade.Venda.com.Ajuste, na.rm = T)|> round(2),
-    "CV_Substancia_UF" = ((sd(Valor.Venda.com.Ajuste.por.Minerio/
-                            Quantidade.Venda.com.Ajuste, na.rm = T))/
-      (median(Valor.Venda.com.Ajuste.por.Minerio/
-                Quantidade.Venda.com.Ajuste, na.rm = T)))|> round(2)),
+      "Venda_PBruta_Substancia_UF" = sum(Valor.Venda.com.Ajuste.por.Minerio, na.rm = T),
+      "p_Substancia_UF" = median(p, na.rm = T),
+      "SD_Substancia_UF" = sd(p, na.rm = T)|> round(2),
+      "CV_Substancia_UF" = ((sd(p, na.rm = T))/(median(p, na.rm = T)))|> round(2)),
     by = c('id_ANO_SUBSTANCIA_UF'))
 
   PBruta$p_Substancia_UF_Real <- 
     round(PBruta$p_Substancia_UF*PBruta$fator,2)
 
-# _____ PBruta_Substancia_Meso ----
+# _____ Venda_PBruta_Substancia_Meso ----
 PBruta <- 
   left_join(
     PBruta,
@@ -203,22 +206,17 @@ PBruta <-
       group_by(
         PBruta,
         id_ANO_SUBSTANCIA_MESO),  
-    "PBruta_Substancia_MESO" = sum(Valor.Venda.com.Ajuste.por.Minerio, na.rm = T),
-    "p_Substancia_MESO" = median(Valor.Venda.com.Ajuste.por.Minerio/
-                                 Quantidade.Venda.com.Ajuste, na.rm = T)|> round(2),
-    "SD_Substancia_MESO" = sd(Valor.Venda.com.Ajuste.por.Minerio/
-                              Quantidade.Venda.com.Ajuste, na.rm = T)|> round(2),
-    "CV_Substancia_MESO" = ((sd(Valor.Venda.com.Ajuste.por.Minerio/
-                               Quantidade.Venda.com.Ajuste, na.rm = T))/
-      (median(Valor.Venda.com.Ajuste.por.Minerio/
-                Quantidade.Venda.com.Ajuste, na.rm = T)))|> round(2)),
+    "Venda_PBruta_Substancia_MESO" = sum(Valor.Venda.com.Ajuste.por.Minerio, na.rm = T),
+    "p_Substancia_MESO" = median(p, na.rm = T),
+    "SD_Substancia_MESO" = sd(p, na.rm = T)|> round(2),
+    "CV_Substancia_MESO" = ((sd(p, na.rm = T))/(median(p, na.rm = T)))|> round(2)),
     by = c('id_ANO_SUBSTANCIA_MESO'))
   
   PBruta$p_Substancia_MESO_Real <- 
     round(PBruta$p_Substancia_MESO*PBruta$fator,2)
   
 
-# _____ PBruta_Substancia_Micro ----
+# _____ Venda_PBruta_Substancia_Micro ----
 PBruta <- 
   left_join(
     PBruta,
@@ -226,15 +224,10 @@ PBruta <-
       group_by(
         PBruta,
         id_ANO_SUBSTANCIA_MICRO),  
-    "PBruta_Substancia_MICRO" = sum(Valor.Venda.com.Ajuste.por.Minerio, na.rm = T),
-    "p_Substancia_MICRO" = median(Valor.Venda.com.Ajuste.por.Minerio/
-                                   Quantidade.Venda.com.Ajuste, na.rm = T)|> round(2),
-    "SD_Substancia_MICRO" = sd(Valor.Venda.com.Ajuste.por.Minerio/
-                                Quantidade.Venda.com.Ajuste, na.rm = T)|> round(2),
-    "CV_Substancia_MICRO" = ((sd(Valor.Venda.com.Ajuste.por.Minerio/
-                                 Quantidade.Venda.com.Ajuste, na.rm = T))/
-      (median(Valor.Venda.com.Ajuste.por.Minerio/
-                Quantidade.Venda.com.Ajuste, na.rm = T)))|> round(2)),
+      "Venda_PBruta_Substancia_MICRO" = sum(Valor.Venda.com.Ajuste.por.Minerio, na.rm = T),
+      "p_Substancia_MICRO" = median(p, na.rm = T),
+      "SD_Substancia_MICRO" = sd(p, na.rm = T)|> round(2),
+      "CV_Substancia_MICRO" = ((sd(p, na.rm = T))/(median(p, na.rm = T)))|> round(2)),
     by = c('id_ANO_SUBSTANCIA_MICRO'))
 
   PBruta$p_Substancia_MICRO_Real <- 
@@ -251,7 +244,7 @@ MS_Substancia_PBruta_BR <-
              Substancia.AMB),
      "MS_Substancia" = (
       Valor.Venda.com.Ajuste.por.Minerio /
-        PBruta_Substancia)
+        Venda_PBruta_Substancia)
     ,"p_Substancia" = unique(p_Substancia, na.rm = T)
     ,"SD_Substancia" = unique(SD_Substancia, na.rm = T)
     ,"CV_Substancia" = unique(CV_Substancia, na.rm = T)
@@ -270,7 +263,7 @@ MS_Substancia_PBruta_UF <-
              Substancia.AMB),
      "MS_Substancia" = (
       Valor.Venda.com.Ajuste.por.Minerio /
-        PBruta_Substancia_UF)
+        Venda_PBruta_Substancia_UF)
     ,"p_Substancia" = unique(p_Substancia_UF, na.rm = T)
     ,"SD_Substancia" = unique(SD_Substancia_UF, na.rm = T)
     ,"CV_Substancia" = unique(CV_Substancia_UF, na.rm = T)
@@ -289,7 +282,7 @@ MS_Substancia_PBruta_MESO <-
              Substancia.AMB),
      "MS_Substancia" = (
       Valor.Venda.com.Ajuste.por.Minerio /
-        PBruta_Substancia_MESO)
+        Venda_PBruta_Substancia_MESO)
     ,"p_Substancia" = unique(p_Substancia_MESO, na.rm = T)
     ,"SD_Substancia" = unique(SD_Substancia_MESO, na.rm = T)
     ,"CV_Substancia" = unique(CV_Substancia_MESO, na.rm = T)
@@ -309,7 +302,7 @@ MS_Substancia_PBruta_MICRO <-
              Substancia.AMB),
      "MS_Substancia" = (
       Valor.Venda.com.Ajuste.por.Minerio /
-        PBruta_Substancia_MICRO)
+        Venda_PBruta_Substancia_MICRO)
     ,"p_Substancia" = unique(p_Substancia_MICRO, na.rm = T)
     ,"SD_Substancia" = unique(SD_Substancia_MICRO, na.rm = T)
     ,"CV_Substancia" = unique(CV_Substancia_MICRO, na.rm = T)
