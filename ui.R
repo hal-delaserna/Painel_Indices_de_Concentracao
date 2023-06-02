@@ -41,7 +41,7 @@ body <-
         ),actionButton(inputId = "id.Atualizar.button.BR", label = "Ok")
       )
 ,box(width = 8
-     ,reactableOutput(outputId = "id.HHI_Substancia_VPM_BR")
+     ,reactableOutput(outputId = "id.HHI_Substancia_PBruta_BR")
      ))
  ,fluidRow(
    box(title = "Índice Hirchsman-Herfindahl (HHI)"
@@ -49,19 +49,19 @@ body <-
        ,status = "warning"
        ,width = 4
        ,height = '215px'
-       ,plotOutput(outputId = "id.Graf.HHI_Substancia_VPM_BR", height = "150px"))
+       ,plotOutput(outputId = "id.Graf.HHI_Substancia_PBruta_BR", height = "150px"))
    ,box(title = Titulo
         ,solidHeader = TRUE
         ,status = "info"
         ,width = 4
         ,height = '215px'
-        ,plotOutput(outputId = "id.Graf.preco_Substancia_VPM_BR", height = "150px"))
+        ,plotOutput(outputId = "id.Graf.preco_Substancia_PBruta_BR", height = "150px"))
    ,box(title = "Coeficiente de Variação (preço)"
         ,solidHeader = TRUE
         ,status = "info"
         ,width = 4
         ,height = '215px'
-        ,plotOutput(outputId = "id.Graf.CV_Substancia_VPM_BR", height = "150px"))
+        ,plotOutput(outputId = "id.Graf.CV_Substancia_PBruta_BR", height = "150px"))
    )
 ),
 #_____ tab_HHI UF ---- 
@@ -85,7 +85,7 @@ tabPanel("UF"
 ,actionButton(inputId = "id.Atualizar.button.UF", label = "Ok")
 )
 ,box(width = 8
-     ,reactableOutput(outputId = "id.HHI_Substancia_VPM_UF")
+     ,reactableOutput(outputId = "id.HHI_Substancia_PBruta_UF")
 ))
 ,fluidRow(
   box(title = "Índice Hirchsman-Herfindahl (HHI)"
@@ -93,19 +93,19 @@ tabPanel("UF"
       ,status = "warning"
       ,width = 4
       ,height = '215px'
-      ,plotOutput(outputId = "id.Graf.HHI_Substancia_VPM_UF", height = "150px"))
+      ,plotOutput(outputId = "id.Graf.HHI_Substancia_PBruta_UF", height = "150px"))
   ,box(title = Titulo
        ,solidHeader = TRUE
        ,status = "info"
        ,width = 4
        ,height = '215px'
-       ,plotOutput(outputId = "id.Graf.preco_Substancia_VPM_UF", height = "150px"))
+       ,plotOutput(outputId = "id.Graf.preco_Substancia_PBruta_UF", height = "150px"))
   ,box(title = "Coeficiente de Variação (preço)"
        ,solidHeader = TRUE
        ,status = "info"
        ,width = 4
        ,height = '215px'
-       ,plotOutput(outputId = "id.Graf.CV_Substancia_VPM_UF", height = "150px"))
+       ,plotOutput(outputId = "id.Graf.CV_Substancia_PBruta_UF", height = "150px"))
 )
 ),
 #_____ tab_HHI MESO ---- 
@@ -134,7 +134,7 @@ tabPanel("Mesorregião"
 ,actionButton(inputId = "id.Atualizar.button.MESO", label = "Ok")
  )
 ,box(width = 8
-     ,reactableOutput(outputId = "id.HHI_Substancia_VPM_MESO"))
+     ,reactableOutput(outputId = "id.HHI_Substancia_PBruta_MESO"))
 )
 ,fluidRow(
   box(title = "Índice Hirchsman-Herfindahl (HHI)"
@@ -142,19 +142,19 @@ tabPanel("Mesorregião"
       ,status = "warning"
       ,width = 4
       ,height = '215px'
-      ,plotOutput(outputId = "id.Graf.HHI_Substancia_VPM_MESO", height = "150px"))
+      ,plotOutput(outputId = "id.Graf.HHI_Substancia_PBruta_MESO", height = "150px"))
   ,box(title = Titulo
        ,solidHeader = TRUE
        ,status = "info"
        ,width = 4
        ,height = '215px'
-       ,plotOutput(outputId = "id.Graf.preco_Substancia_VPM_MESO", height = "150px"))
+       ,plotOutput(outputId = "id.Graf.preco_Substancia_PBruta_MESO", height = "150px"))
   ,box(title = "Coeficiente de Variação (preço)"
        ,solidHeader = TRUE
        ,status = "info"
        ,width = 4
        ,height = '215px'
-       ,plotOutput(outputId = "id.Graf.CV_Substancia_VPM_MESO", height = "150px"))
+       ,plotOutput(outputId = "id.Graf.CV_Substancia_PBruta_MESO", height = "150px"))
 )
 ),
 #_____ tab_HHI MICRO ---- 
@@ -183,7 +183,7 @@ tabPanel("Microrregião"
                ,actionButton(inputId = "id.Atualizar.button.MICRO", label = "Ok")
            )
            ,box(width = 8
-                ,reactableOutput(outputId = "id.HHI_Substancia_VPM_MICRO"))
+                ,reactableOutput(outputId = "id.HHI_Substancia_PBruta_MICRO"))
          )
          ,fluidRow(
            box(title = "Índice Hirchsman-Herfindahl (HHI)"
@@ -191,19 +191,19 @@ tabPanel("Microrregião"
                ,status = "warning"
                ,width = 4
                ,height = '215px'
-               ,plotOutput(outputId = "id.Graf.HHI_Substancia_VPM_MICRO", height = "150px"))
+               ,plotOutput(outputId = "id.Graf.HHI_Substancia_PBruta_MICRO", height = "150px"))
            ,box(title = Titulo
                 ,solidHeader = TRUE
                 ,status = "info"
                 ,width = 4
                 ,height = '215px'
-                ,plotOutput(outputId = "id.Graf.preco_Substancia_VPM_MICRO", height = "150px"))
+                ,plotOutput(outputId = "id.Graf.preco_Substancia_PBruta_MICRO", height = "150px"))
            ,box(title = "Coeficiente de Variação (preço)"
                 ,solidHeader = TRUE
                 ,status = "info"
                 ,width = 4
                 ,height = '215px'
-                ,plotOutput(outputId = "id.Graf.CV_Substancia_VPM_MICRO", height = "150px"))
+                ,plotOutput(outputId = "id.Graf.CV_Substancia_PBruta_MICRO", height = "150px"))
          )
          )
 )
