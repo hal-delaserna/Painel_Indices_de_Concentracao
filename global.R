@@ -107,6 +107,7 @@ uf <-
 
 RegiaoIntermediaria <- unique(geocod$Região.Intermediária.IBGE)
 RegiaoImediata <- unique(geocod$Região.Imediata.IBGE)
+RegiaoMetropolitana <- na.omit(unique(geocod$Reg_Metropolitana))
 Substancia <- sort(unique(PBruta$Substancia.AMB))
 Produto <- sort(unique(PBruta$Produto.Comercializado))
 
@@ -128,6 +129,9 @@ PBruta$id_ANO_SUBSTANCIA_MESO <-
 
 PBruta$id_ANO_SUBSTANCIA_MICRO <- 
   paste0(PBruta$Ano.Base.Ral, PBruta$Substancia.AMB, PBruta$Cod_RgImed) |> gsub(pattern = " ", replacement = "")
+
+PBruta$id_ANO_SUBSTANCIA_MET <- 
+  paste0(PBruta$Ano.Base.Ral, PBruta$Substancia.AMB, PBruta$Cod_Reg_Metropolitana) |> gsub(pattern = " ", replacement = "")
 
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -233,6 +237,26 @@ PBruta <-
   PBruta$p_Substancia_MICRO_Real <- 
     round(PBruta$p_Substancia_MICRO*PBruta$fator,2)
   
+  
+# _____ Venda_PBruta_Substancia_MET ----
+  PBruta <- 
+    left_join(
+      PBruta,
+      summarise(
+        group_by(
+          PBruta,
+          id_ANO_SUBSTANCIA_MET),  
+        "Venda_PBruta_Substancia_MET" = sum(Valor.Venda.com.Ajuste.por.Minerio, na.rm = T),
+        "p_Substancia_MET" = median(p, na.rm = T),
+        "SD_Substancia_MET" = sd(p, na.rm = T)|> round(2),
+        "CV_Substancia_MET" = ((sd(p, na.rm = T))/(median(p, na.rm = T)))|> round(2)),
+      by = c('id_ANO_SUBSTANCIA_MET'))
+  
+  PBruta$p_Substancia_MET_Real <- 
+    round(PBruta$p_Substancia_MET*PBruta$fator,2)  
+  
+  
+  
 # MARKET SHARE --------------------------------------------
 
 # _____ Mkt_Share_Substancia_PBruta_BR ----
@@ -309,6 +333,29 @@ MS_Substancia_PBruta_MICRO <-
     ,"p_Substancia_Real" = unique(p_Substancia_MICRO_Real, na.rm = T)
   ) |> na.omit()
 
+  
+  
+# _____ Mkt_Share_Substancia_PBruta_MET ----
+  
+  MS_Substancia_PBruta_MET <-
+    summarise(
+      group_by(PBruta,
+               CPF.CNPJ.Nucleos,
+               Ano.Base.Ral,
+               UF,
+               Reg_Metropolitana,
+               Substancia.AMB),
+      "MS_Substancia" = (
+        Valor.Venda.com.Ajuste.por.Minerio /
+          Venda_PBruta_Substancia_MET)
+      ,"p_Substancia" = unique(p_Substancia_MET, na.rm = T)
+      ,"SD_Substancia" = unique(SD_Substancia_MET, na.rm = T)
+      ,"CV_Substancia" = unique(CV_Substancia_MET, na.rm = T)
+      ,"p_Substancia_Real" = unique(p_Substancia_MET_Real, na.rm = T)
+    ) |> na.omit()
+  
+  
+  
 
 # rm(PBruta)
 

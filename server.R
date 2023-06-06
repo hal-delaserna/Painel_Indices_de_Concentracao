@@ -68,13 +68,13 @@
       })
     
     
-    #_____ HHI_Substancia_PBruta_RMT ----
-    HHI_Substancia_PBruta_RMT <-
-      eventReactive(input$id.Atualizar.button.RMT, {
+    #_____ HHI_Substancia_PBruta_MET ----
+    HHI_Substancia_PBruta_MET <-
+      eventReactive(input$id.Atualizar.button.MET, {
         summarise(
           group_by(
-            MS_Substancia_PBruta_RMT[MS_Substancia_PBruta_RMT$Substancia.AMB == input$id.Substancia.select.RMT & 
-                                      MS_Substancia_PBruta_RMT$Região.Metropolitana.IBGE == input$id.RMT.select, ],
+            MS_Substancia_PBruta_MET[MS_Substancia_PBruta_MET$Substancia.AMB == input$id.Substancia.select.MET & 
+                                      MS_Substancia_PBruta_MET$Reg_Metropolitana == input$id.MET.select, ],
             Ano.Base.Ral),
           "HHI" = round(10000*hhi(MS_Substancia, na.rm = TRUE),0),
           "N" = length(CPF.CNPJ.Nucleos),
@@ -121,11 +121,11 @@
     })    
     
     
-    #_____Formulário Hierárquico RMT
+    #_____Formulário Hierárquico MET
     observe({
       RegiaoMetropolitana <- 
         sort(
-          unique(geocod[geocod$UF_sigla == input$id.UF.RMT.select,]$Região.Metropolitana.IBGE)
+          unique(geocod[geocod$UF_sigla == input$id.UF.MET.select,]$Reg_Metropolitana)
         )
       
       # Can use character(0) to remove all choices
@@ -134,7 +134,7 @@
       
       # Can also set the label and select items
       updatePickerInput(session = session, 
-                        inputId = "id.RMT.select",
+                        inputId = "id.MET.select",
                         label = "Região Metropolitana",
                         choices = RegiaoMetropolitana)
     })    
@@ -280,10 +280,10 @@
       })
     
     
-#_____  geom_col - output$id.Graf.HHI_Substancia_PBruta_RMT ----  
-    output$id.Graf.HHI_Substancia_PBruta_RMT <-
+#_____  geom_col - output$id.Graf.HHI_Substancia_PBruta_MET ----  
+    output$id.Graf.HHI_Substancia_PBruta_MET <-
       renderPlot({
-        ggplot(data = HHI_Substancia_PBruta_RMT(),aes(x = Ano.Base.Ral)) +
+        ggplot(data = HHI_Substancia_PBruta_MET(),aes(x = Ano.Base.Ral)) +
           scale_y_continuous(sec.axis = sec_axis(trans = ~.)) +
           geom_line(aes(y = HHI), color = "brown") + geom_point(aes(y = HHI)) + 
           labs(x = "Ano", y = "") + 
@@ -291,10 +291,10 @@
           theme_bw()
       })
     
-#_____  geom_col - output$id.Graf.Preco_Substancia_PBruta_RMT ----  
-    output$id.Graf.preco_Substancia_PBruta_RMT <-
+#_____  geom_col - output$id.Graf.Preco_Substancia_PBruta_MET ----  
+    output$id.Graf.preco_Substancia_PBruta_MET <-
       renderPlot({
-        ggplot(data = HHI_Substancia_PBruta_RMT(),aes(x = Ano.Base.Ral)) +
+        ggplot(data = HHI_Substancia_PBruta_MET(),aes(x = Ano.Base.Ral)) +
           scale_y_continuous(sec.axis = sec_axis(trans = ~.)) +
           geom_line(aes(y = `p(nominal)`), color = "grey") + geom_point(aes(y = `p(nominal)`), shape = 1) + 
           geom_line(aes(y = `p(real)`), color = "brown") + geom_point(aes(y = `p(real)`), shape = 4) + 
@@ -303,10 +303,10 @@
           theme_bw()
       })
     
-#_____  geom_col - output$id.Graf.CV_Substancia_PBruta_RMT ----  
-    output$id.Graf.CV_Substancia_PBruta_RMT <-
+#_____  geom_col - output$id.Graf.CV_Substancia_PBruta_MET ----  
+    output$id.Graf.CV_Substancia_PBruta_MET <-
       renderPlot({
-        ggplot(data = HHI_Substancia_PBruta_RMT(),aes(x = Ano.Base.Ral)) +
+        ggplot(data = HHI_Substancia_PBruta_MET(),aes(x = Ano.Base.Ral)) +
           scale_y_continuous(sec.axis = sec_axis(trans = ~.)) +
           geom_line(aes(y = CV)) + geom_point(aes(y = CV)) + 
           labs(x = "Ano", y = "") + 
@@ -383,10 +383,10 @@ output$id.HHI_Substancia_PBruta_MESO <-
       })
     
     
-#_____ TABELA GERAL - output$id.Tb.HHI.RMT ----  
-    output$id.HHI_Substancia_PBruta_RMT <- 
+#_____ TABELA GERAL - output$id.Tb.HHI.MET ----  
+    output$id.HHI_Substancia_PBruta_MET <- 
       renderReactable({
-        reactable(HHI_Substancia_PBruta_RMT()  
+        reactable(HHI_Substancia_PBruta_MET()  
                   ,defaultColDef = colDef(align = "center")
                   ,theme = reactableTheme(cellStyle = list(fontSize = '11px')) 
                   ,filterable = FALSE

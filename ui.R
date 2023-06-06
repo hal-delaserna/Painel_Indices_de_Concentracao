@@ -7,7 +7,7 @@ header <-
 sidebar <- dashboardSidebar(width = 200,
   sidebarMenu(
     menuItem("Hirchsman-Herfindahl (HHI)",
-             menuSubItem(" Produção Bruta", tabName = "tab_HHI_Bruta", icon = icon("truck-monster")),
+             menuSubItem(" Produção Bruta", tabName = "tab_HHI_Bruta", icon = icon("truck-monster")), #person-digging
              menuSubItem(" Produção Beneficiada", tabName = "tab_HHI_Beneficiada", icon = icon("industry")))
    ,menuItem("Relação de Concentração (CR4)", 
              tabName = "tab_CR4")))
@@ -203,7 +203,57 @@ tabPanel("Microrregião"
                 ,height = '215px'
                 ,plotOutput(outputId = "id.Graf.CV_Substancia_PBruta_MICRO", height = "150px"))
          )
+         ),
+#_____ tab_HHI MET ---- 
+tabPanel("Região Metropolitana"
+         # __________Input Substância ----
+         ,fluidRow(
+           box(width = 2
+               ,pickerInput(
+                 inputId = "id.Substancia.select.MET"
+                 ,label = "Substância"
+                 ,choices = list(`Substancia` = Substancia)
+                 ,multiple = FALSE
+                 ,selected = "Areia")
+               # __________ Input UF.MET ----
+               ,pickerInput(
+                 inputId = "id.UF.MET.select"
+                 ,label = "UF"
+                 ,choices = list(`UF` = uf)
+                 ,selected = "AL"
+                 ,multiple = FALSE)
+               # __________ Input MET ----
+               ,pickerInput(
+                 inputId = "id.MET.select"
+                 ,label = "Reg. Metropolitana"
+                 ,choices = list(`RegiaoMet` = RegiaoMetropolitana)
+                 ,multiple = FALSE)
+               ,actionButton(inputId = "id.Atualizar.button.MET", label = "Ok")
+           )
+           ,box(width = 8
+                ,reactableOutput(outputId = "id.HHI_Substancia_PBruta_MET"))
          )
+         ,fluidRow(
+           box(title = "Índice Hirchsman-Herfindahl (HHI)"
+               ,solidHeader = TRUE
+               ,status = "warning"
+               ,width = 4
+               ,height = '215px'
+               ,plotOutput(outputId = "id.Graf.HHI_Substancia_PBruta_MET", height = "150px"))
+           ,box(title = Titulo
+                ,solidHeader = TRUE
+                ,status = "info"
+                ,width = 4
+                ,height = '215px'
+                ,plotOutput(outputId = "id.Graf.preco_Substancia_PBruta_MET", height = "150px"))
+           ,box(title = "Coeficiente de Variação (preço)"
+                ,solidHeader = TRUE
+                ,status = "info"
+                ,width = 4
+                ,height = '215px'
+                ,plotOutput(outputId = "id.Graf.CV_Substancia_PBruta_MET", height = "150px"))
+         )
+)
 ))
 
 # tab_HHI_Beneficiada ---- 
