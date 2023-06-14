@@ -26,7 +26,9 @@ body <-
 
 #_____ tab_HHI BR ---- 
               tabPanel("Brasil"
+                       # ,fluidRow(box(width = 12, solidHeader = FALSE ))
 
+                       
 # __________Input Substância ----                  
  ,fluidRow(
    box(width = 2

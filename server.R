@@ -83,7 +83,7 @@
           "CV" = unique(CV_Substancia),
           "p(real)" = unique(p_Substancia_Real)) |> arrange(desc(Ano.Base.Ral))
       })
-#_____Formulário Hierárquico MESO
+#_____Formulário Hierárquico MESO_PBruta
     observe({
       RegiaoIntermediaria <- 
         sort(
@@ -102,7 +102,7 @@
     })    
 
     
-    #_____Formulário Hierárquico MICRO
+    #_____Formulário Hierárquico MICRO_PBruta
     observe({
       RegiaoImediata <- 
         sort(
@@ -121,7 +121,7 @@
     })    
     
     
-    #_____Formulário Hierárquico MET
+    #_____Formulário Hierárquico MET_PBruta
     observe({
       RegiaoMetropolitana <- 
         sort(
@@ -150,8 +150,7 @@
           scale_y_continuous(sec.axis = sec_axis(trans = ~.)) +
           geom_line(aes(y = HHI), color = "brown") + geom_point(aes(y = HHI)) + 
           labs(x = "Ano", y = "") + 
-          theme(plot.title = element_text(hjust = 0.5)) + 
-          theme_bw()
+          theme_bw(base_size = 14)
       })
     
 #_____  geom_col - output$id.Graf.Preco_Substancia_PBruta_BR ----  
@@ -162,8 +161,7 @@
           geom_line(aes(y = `p(nominal)`), color = 'grey') + geom_point(aes(y = `p(nominal)`), shape = 1) + 
           geom_line(aes(y = `p(real)`), color = "brown") + geom_point(aes(y = `p(real)`)) + 
           labs(x = "Ano", y = "", caption = "⬤   Preço Real           O   Preço Nominal") +
-          theme(plot.title = element_text(hjust = 0.5)) + 
-          theme_bw()
+          theme_bw(base_size = 14)
       })
     
 #_____  geom_col - output$id.Graf.CV_Substancia_PBruta_BR ----  
@@ -173,8 +171,7 @@
           scale_y_continuous(sec.axis = sec_axis(trans = ~.)) +
           geom_line(aes(y = CV), color = "brown") + geom_point(aes(y = CV)) + 
           labs(x = "Ano", y = "") + 
-          theme(plot.title = element_text(hjust = 0.5)) + 
-          theme_bw()
+          theme_bw(base_size = 14)
       })
 
 #_____  geom_col - output$id.Graf.HHI_Substancia_PBruta_UF ----  
@@ -184,8 +181,7 @@
           scale_y_continuous(sec.axis = sec_axis(trans = ~.)) +
           geom_line(aes(y = HHI), color = "brown") + geom_point(aes(y = HHI)) + 
           labs(x = "Ano", y = "") + 
-          theme(plot.title = element_text(hjust = 0.5)) + 
-          theme_bw()
+          theme_bw(base_size = 14)
       })
     
 #_____  geom_col - output$id.Graf.Preco_Substancia_PBruta_UF ----  
@@ -196,8 +192,7 @@
           geom_line(aes(y = `p(nominal)`), color = "grey") + geom_point(aes(y = `p(nominal)`), shape = 1) + 
           geom_line(aes(y = `p(real)`), color = "brown") + geom_point(aes(y = `p(real)`), shape = 4) + 
           labs(x = "Ano", y = "", caption = "X   Preço Real           O   Preço Nominal") +
-          theme(plot.title = element_text(hjust = 0.5)) + 
-          theme_bw()
+          theme_bw(base_size = 14)
       })
     
 #_____  geom_col - output$id.Graf.CV_Substancia_PBruta_UF ----  
@@ -207,8 +202,7 @@
           scale_y_continuous(sec.axis = sec_axis(trans = ~.)) +
           geom_line(aes(y = CV), color = "brown") + geom_point(aes(y = CV)) + 
           labs(x = "Ano", y = "") + 
-          theme(plot.title = element_text(hjust = 0.5)) + 
-          theme_bw()
+          theme_bw(base_size = 14)
       })
     
 #_____  geom_col - output$id.Graf.HHI_Substancia_PBruta_MESO ----  
@@ -218,8 +212,7 @@
           scale_y_continuous(sec.axis = sec_axis(trans = ~.)) +
           geom_line(aes(y = HHI), color = "brown") + geom_point(aes(y = HHI)) + 
           labs(x = "Ano", y = "") + 
-          theme(plot.title = element_text(hjust = 0.5)) + 
-          theme_bw()
+          theme_bw(base_size = 14)
       })
     
 #_____  geom_col - output$id.Graf.Preco_Substancia_PBruta_MESO ----  
@@ -230,8 +223,7 @@
           geom_line(aes(y = `p(nominal)`), color = "grey") + geom_point(aes(y = `p(nominal)`), shape = 1) + 
           geom_line(aes(y = `p(real)`), color = "brown") + geom_point(aes(y = `p(real)`), shape = 4) + 
           labs(x = "Ano", y = "", caption = "X   Preço Real           O   Preço Nominal") +
-          theme(plot.title = element_text(hjust = 0.5)) + 
-          theme_bw()
+          theme_bw(base_size = 14)
       })
     
 #_____  geom_col - output$id.Graf.CV_Substancia_PBruta_MESO ----  
@@ -241,8 +233,7 @@
           scale_y_continuous(sec.axis = sec_axis(trans = ~.)) +
           geom_line(aes(y = CV), color = "brown") + geom_point(aes(y = CV)) + 
           labs(x = "Ano", y = "") + 
-          theme(plot.title = element_text(hjust = 0.5)) + 
-          theme_bw()
+          theme_bw(base_size = 14)
       })
     
 #_____  geom_col - output$id.Graf.HHI_Substancia_PBruta_MICRO ----  
@@ -252,8 +243,7 @@
           scale_y_continuous(sec.axis = sec_axis(trans = ~.)) +
           geom_line(aes(y = HHI), color = "brown") + geom_point(aes(y = HHI)) + 
           labs(x = "Ano", y = "") + 
-          theme(plot.title = element_text(hjust = 0.5)) + 
-          theme_bw()
+          theme_bw(base_size = 14)
       })
     
 #_____  geom_col - output$id.Graf.Preco_Substancia_PBruta_MICRO ----  
@@ -264,8 +254,7 @@
           geom_line(aes(y = `p(nominal)`), color = "grey") + geom_point(aes(y = `p(nominal)`), shape = 1) + 
           geom_line(aes(y = `p(real)`), color = "brown") + geom_point(aes(y = `p(real)`), shape = 4) + 
           labs(x = "Ano", y = "", caption = "X   Preço Real           O   Preço Nominal") +
-          theme(plot.title = element_text(hjust = 0.5)) + 
-          theme_bw()
+          theme_bw(base_size = 14)
       })
     
 #_____  geom_col - output$id.Graf.CV_Substancia_PBruta_MICRO ----  
@@ -275,8 +264,7 @@
           scale_y_continuous(sec.axis = sec_axis(trans = ~.)) +
           geom_line(aes(y = CV), color = "brown") + geom_point(aes(y = CV)) + 
           labs(x = "Ano", y = "") + 
-          theme(plot.title = element_text(hjust = 0.5)) + 
-          theme_bw()
+          theme_bw(base_size = 14)
       })
     
     
@@ -287,8 +275,7 @@
           scale_y_continuous(sec.axis = sec_axis(trans = ~.)) +
           geom_line(aes(y = HHI), color = "brown") + geom_point(aes(y = HHI)) + 
           labs(x = "Ano", y = "") + 
-          theme(plot.title = element_text(hjust = 0.5)) + 
-          theme_bw()
+          theme_bw(base_size = 14)
       })
     
 #_____  geom_col - output$id.Graf.Preco_Substancia_PBruta_MET ----  
@@ -299,8 +286,7 @@
           geom_line(aes(y = `p(nominal)`), color = "grey") + geom_point(aes(y = `p(nominal)`), shape = 1) + 
           geom_line(aes(y = `p(real)`), color = "brown") + geom_point(aes(y = `p(real)`), shape = 4) + 
           labs(x = "Ano", y = "", caption = "X   Preço Real           O   Preço Nominal") +
-          theme(plot.title = element_text(hjust = 0.5)) + 
-          theme_bw()
+          theme_bw(base_size = 14)
       })
     
 #_____  geom_col - output$id.Graf.CV_Substancia_PBruta_MET ----  
@@ -310,8 +296,7 @@
           scale_y_continuous(sec.axis = sec_axis(trans = ~.)) +
           geom_line(aes(y = CV)) + geom_point(aes(y = CV)) + 
           labs(x = "Ano", y = "") + 
-          theme(plot.title = element_text(hjust = 0.5)) + 
-          theme_bw()
+          theme_bw(base_size = 14)
       })
     
 ###             OBSERVERS TABELA ----    
