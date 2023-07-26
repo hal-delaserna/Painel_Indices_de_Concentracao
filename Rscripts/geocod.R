@@ -37,7 +37,7 @@ geocod$GEOCOD_6 <-
 geocod$id_mun_UF <-
   paste(
     geocod$Município |> 
-      iconv(from = 'Latin1', to = 'ASCII//TRANSLIT') |> 
+      iconv(from = 'utf-8', to = 'ASCII//TRANSLIT') |> 
       gsub(pattern = "-| {1,}|'|\"", replacement = "") |> 
       toupper(),
     geocod$UF_sigla, sep = "_")

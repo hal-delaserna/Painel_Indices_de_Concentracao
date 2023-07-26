@@ -1,7 +1,7 @@
 # HEADER ----
 header <-
   dashboardHeader(title = "Painel de Índices de Concentração de Mercado", 
-                  titleWidth = 350)
+                  titleWidth = 550)
 # SIDEBAR ----
 
 sidebar <- dashboardSidebar(width = 200,

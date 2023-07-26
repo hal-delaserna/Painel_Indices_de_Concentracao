@@ -9,7 +9,7 @@
           group_by(
             MS_Substancia_PBruta_BR[MS_Substancia_PBruta_BR$Substancia.AMB == input$id.Substancia.select, ],
             Ano.Base.Ral),
-          "HHI" = round(10000*hhi(MS_Substancia, na.rm = TRUE),0),
+          "HHI" = round(10000*concstats_hhi(MS_Substancia, na.rm = TRUE),0),
           "N" = length(CPF.CNPJ.Nucleos),
           "p(nominal)" = unique(p_Substancia),
           "SD" = unique(SD_Substancia),
@@ -25,7 +25,7 @@
           MS_Substancia_PBruta_UF[MS_Substancia_PBruta_UF$Substancia.AMB == input$id.Substancia.select.UF & 
                                  MS_Substancia_PBruta_UF$UF == input$id.UF.select, ],
           Ano.Base.Ral),
-        "HHI" = round(10000*hhi(MS_Substancia, na.rm = TRUE),0),
+        "HHI" = round(10000*concstats_hhi(MS_Substancia, na.rm = TRUE),0),
         "N" = length(CPF.CNPJ.Nucleos),
         "p(nominal)" = unique(p_Substancia),
         "SD" = unique(SD_Substancia),
@@ -41,7 +41,7 @@
             MS_Substancia_PBruta_MESO[MS_Substancia_PBruta_MESO$Substancia.AMB == input$id.Substancia.select.MESO & 
                                      MS_Substancia_PBruta_MESO$Região.Intermediária.IBGE == input$id.MESO.select, ],
             Ano.Base.Ral),
-          "HHI" = round(10000*hhi(MS_Substancia, na.rm = TRUE),0),
+          "HHI" = round(10000*concstats_hhi(MS_Substancia, na.rm = TRUE),0),
           "N" = length(CPF.CNPJ.Nucleos),
           "p(nominal)" = unique(p_Substancia),
           "SD" = unique(SD_Substancia),
@@ -51,7 +51,7 @@
     
     
     
-    #_____ HHI_Substancia_PBruta_MICRO ----
+#_____ HHI_Substancia_PBruta_MICRO ----
     HHI_Substancia_PBruta_MICRO <-
       eventReactive(input$id.Atualizar.button.MICRO, {
         summarise(
@@ -59,7 +59,7 @@
             MS_Substancia_PBruta_MICRO[MS_Substancia_PBruta_MICRO$Substancia.AMB == input$id.Substancia.select.MICRO & 
                                      MS_Substancia_PBruta_MICRO$Região.Imediata.IBGE == input$id.MICRO.select, ],
             Ano.Base.Ral),
-          "HHI" = round(10000*hhi(MS_Substancia, na.rm = TRUE),0),
+          "HHI" = round(10000*concstats_hhi(MS_Substancia, na.rm = TRUE),0),
           "N" = length(CPF.CNPJ.Nucleos),
           "p(nominal)" = unique(p_Substancia),
           "SD" = unique(SD_Substancia),
@@ -68,7 +68,7 @@
       })
     
     
-    #_____ HHI_Substancia_PBruta_MET ----
+#_____ HHI_Substancia_PBruta_MET ----
     HHI_Substancia_PBruta_MET <-
       eventReactive(input$id.Atualizar.button.MET, {
         summarise(
@@ -76,13 +76,107 @@
             MS_Substancia_PBruta_MET[MS_Substancia_PBruta_MET$Substancia.AMB == input$id.Substancia.select.MET & 
                                       MS_Substancia_PBruta_MET$Reg_Metropolitana == input$id.MET.select, ],
             Ano.Base.Ral),
-          "HHI" = round(10000*hhi(MS_Substancia, na.rm = TRUE),0),
+          "HHI" = round(10000*concstats_hhi(MS_Substancia, na.rm = TRUE),0),
           "N" = length(CPF.CNPJ.Nucleos),
           "p(nominal)" = unique(p_Substancia),
           "SD" = unique(SD_Substancia),
           "CV" = unique(CV_Substancia),
           "p(real)" = unique(p_Substancia_Real)) |> arrange(desc(Ano.Base.Ral))
       })
+    
+
+    #_____ HHI_Substancia_PBeneficiada_BR ----
+    HHI_Substancia_PBeneficiada_BR <-
+      eventReactive(input$id.Atualizar.button.BR, {
+        summarise(
+          group_by(
+            MS_Substancia_PBeneficiada_BR[MS_Substancia_PBeneficiada_BR$Substancia.AMB == input$id.Substancia.select, ],
+            Ano.Base.Ral),
+          "HHI" = round(10000*concstats_hhi(MS_Substancia, na.rm = TRUE),0),
+          "N" = length(CPF.CNPJ.Nucleos),
+          "p(nominal)" = unique(p_Substancia),
+          "SD" = unique(SD_Substancia),
+          "CV" = unique(CV_Substancia),
+          "p(real)" = unique(p_Substancia_Real)) |> arrange(desc(Ano.Base.Ral))
+      })  
+    
+    #_____ HHI_Substancia_PBeneficiada_UF ----
+    HHI_Substancia_PBeneficiada_UF <-
+      eventReactive(input$id.Atualizar.button.UF, {
+        summarise(
+          group_by(
+            MS_Substancia_PBeneficiada_UF[MS_Substancia_PBeneficiada_UF$Substancia.AMB == input$id.Substancia.select.UF & 
+                                      MS_Substancia_PBeneficiada_UF$UF == input$id.UF.select, ],
+            Ano.Base.Ral),
+          "HHI" = round(10000*concstats_hhi(MS_Substancia, na.rm = TRUE),0),
+          "N" = length(CPF.CNPJ.Nucleos),
+          "p(nominal)" = unique(p_Substancia),
+          "SD" = unique(SD_Substancia),
+          "CV" = unique(CV_Substancia),
+          "p(real)" = unique(p_Substancia_Real)) |> arrange(desc(Ano.Base.Ral))
+      })   
+    
+    #_____ HHI_Substancia_PBeneficiada_MESO ----
+    HHI_Substancia_PBeneficiada_MESO <-
+      eventReactive(input$id.Atualizar.button.MESO, {
+        summarise(
+          group_by(
+            MS_Substancia_PBeneficiada_MESO[MS_Substancia_PBeneficiada_MESO$Substancia.AMB == input$id.Substancia.select.MESO & 
+                                        MS_Substancia_PBeneficiada_MESO$Região.Intermediária.IBGE == input$id.MESO.select, ],
+            Ano.Base.Ral),
+          "HHI" = round(10000*concstats_hhi(MS_Substancia, na.rm = TRUE),0),
+          "N" = length(CPF.CNPJ.Nucleos),
+          "p(nominal)" = unique(p_Substancia),
+          "SD" = unique(SD_Substancia),
+          "CV" = unique(CV_Substancia),
+          "p(real)" = unique(p_Substancia_Real)) |> arrange(desc(Ano.Base.Ral))
+      })
+    
+    
+    
+    #_____ HHI_Substancia_PBeneficiada_MICRO ----
+    HHI_Substancia_PBeneficiada_MICRO <-
+      eventReactive(input$id.Atualizar.button.MICRO, {
+        summarise(
+          group_by(
+            MS_Substancia_PBeneficiada_MICRO[MS_Substancia_PBeneficiada_MICRO$Substancia.AMB == input$id.Substancia.select.MICRO & 
+                                         MS_Substancia_PBeneficiada_MICRO$Região.Imediata.IBGE == input$id.MICRO.select, ],
+            Ano.Base.Ral),
+          "HHI" = round(10000*concstats_hhi(MS_Substancia, na.rm = TRUE),0),
+          "N" = length(CPF.CNPJ.Nucleos),
+          "p(nominal)" = unique(p_Substancia),
+          "SD" = unique(SD_Substancia),
+          "CV" = unique(CV_Substancia),
+          "p(real)" = unique(p_Substancia_Real)) |> arrange(desc(Ano.Base.Ral))
+      })
+    
+    
+    #_____ HHI_Substancia_PBeneficiada_MET ----
+    HHI_Substancia_PBeneficiada_MET <-
+      eventReactive(input$id.Atualizar.button.MET, {
+        summarise(
+          group_by(
+            MS_Substancia_PBeneficiada_MET[MS_Substancia_PBeneficiada_MET$Substancia.AMB == input$id.Substancia.select.MET & 
+                                       MS_Substancia_PBeneficiada_MET$Reg_Metropolitana == input$id.MET.select, ],
+            Ano.Base.Ral),
+          "HHI" = round(10000*concstats_hhi(MS_Substancia, na.rm = TRUE),0),
+          "N" = length(CPF.CNPJ.Nucleos),
+          "p(nominal)" = unique(p_Substancia),
+          "SD" = unique(SD_Substancia),
+          "CV" = unique(CV_Substancia),
+          "p(real)" = unique(p_Substancia_Real)) |> arrange(desc(Ano.Base.Ral))
+      })       
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 #_____Formulário Hierárquico MESO_PBruta
     observe({
       RegiaoIntermediaria <- 
