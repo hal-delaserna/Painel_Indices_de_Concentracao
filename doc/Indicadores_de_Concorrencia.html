@@ -1,6 +1,5 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>body {
   max-width: 980px;
-  outline: 1300px solid #fff;
   margin: 16px auto;
 }
 
@@ -501,8 +500,11 @@ body .markdown-body
   padding-bottom: 0.2em;
   margin: 0;
   font-size: 85%;
-  background-color: rgba(0,0,0,0.04);
   border-radius: 3px;
+}
+
+.markdown-body code:not(.highlight):not(.codehilite), .markdown-body samp {
+  background-color: rgba(0,0,0,0.04);
 }
 
 .markdown-body code:before,
@@ -533,8 +535,16 @@ body .markdown-body
   overflow: auto;
   font-size: 85%;
   line-height: 1.45;
-  background-color: #f7f7f7;
+}
+
+.markdown-body .codehilite,
+.markdown-body .highlight,
+.markdown-body pre {
   border-radius: 3px;
+}
+
+.markdown-body :not(.highlight) > pre {
+  background-color: #f7f7f7;
 }
 
 .markdown-body .codehilite pre,
@@ -1004,7 +1014,7 @@ body .markdown-body
   }
 }
 </style><style>/*GitHub*/
-.highlight {background-color:#fff;color:#333333;}
+.highlight {background-color:#f7f7f7;color:#333333;}
 .highlight .hll {background-color:#ffffcc;}
 .highlight .c{color:#999988;font-style:italic}
 .highlight .err{color:#a61717;background-color:#e3d2d2}
@@ -1073,7 +1083,8 @@ patamar competitivo:
 - a taxa de retorno (lucros): baseada em lucros auferidos por valor investido;
 - a margem preço-custo (ou relação preço-custo): baseada na diferença entre preços e o custo marginal (na prática, alguma forma de custo variável)</p>
 <p>Medidas de <em>barreira à entrada</em>: i) escala mínima eficiente; ii) intensidade de capital; iii) intensidade de gastos com publicidade; iv) tecnologias especificas aplicadas à produção; v) outras.</p>
-<p><strong>Mercado Relevante:</strong> existe uma diferença entre a classificação em <em>setores econômicos</em> (ISICS/CNAE), baseada em questões de natureza produtiva e técnica e padrões internacionais, e o conceito de <em>mercado relevante do antitruste</em>. Frequentemente, ambos não coincidem. Carlton e Perloff (2005) afirmam que produtos similares fabricados por diferentes setores econômicos, podem competir em um mesmo mercado relevante. <strong>Na prática, a classificação em setores econômicos serve como proxy (aproximação) para os mercados relevantes</strong>   </p>
+<p><strong>Mercado Relevante:</strong> existe uma diferença entre a classificação em <em>setores econômicos</em> (ISICS/CNAE), baseada em questões de natureza produtiva e técnica e padrões internacionais, e o conceito de <em>mercado relevante do antitruste</em>. Frequentemente, ambos não coincidem. Carlton e Perloff (2005) afirmam que produtos similares fabricados por diferentes setores econômicos, podem competir em um mesmo mercado relevante. <strong>Na prática, a classificação em setores econômicos serve como proxy (aproximação) para os mercados relevantes</strong> <br />
+<em>Polder et al (2009), Schiersch e Schmidt-Ehmcke (2010) - utilizam classificações setoriais (ISIC) para avaliar o grau de concorrência setorial nos mercados do Reino Unido e da Holanda, respectivamente.</em> (pg. 9)</p>
 <p><em>Product Market Regulation (PMR)</em> </p>
 <p><em>“Mercado relevante é definido como o menor grupo de produtos e a menor área geográfica necessários para que um suposto monopolista esteja em condições de impor um ‘pequeno porém significativo e não transitório’ aumento de preços.”</em> Guia para Análise Econômica de Atos de Concentração Horizontal (Portaria Conjunta SEAE/SDE nº 50/2001)<br />
 A delimitação do mercado relevante está calcada no exercício do Teste do Monopolista Hipotético (TMH)  </p>

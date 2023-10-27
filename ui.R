@@ -258,9 +258,260 @@ tabPanel("Região Metropolitana"
 )
 ))
 
+
+
+
+
+
 # tab_HHI_Beneficiada ---- 
 ,tabItem(tabName = "tab_HHI_Beneficiada"
-         ,fluidRow(box(width = 2)))
+        ,tabsetPanel(
+          
+          #_____ tab_HHI BR ---- 
+          tabPanel("Brasil"
+                   # ,fluidRow(box(width = 12, solidHeader = FALSE ))
+                   
+                   
+                   # __________Input Substância ----                  
+                   ,fluidRow(
+                     box(width = 2
+                         ,pickerInput(
+                           inputId = "id.Substancia.Beneficiada.select"
+                           ,label = "Substância"
+                           ,choices = list(`Substancia` = Substancia)
+                           ,multiple = FALSE
+                           ,selected = "Areia"
+                         ),actionButton(inputId = "id.Atualizar.button.Beneficiada.BR", label = "Ok")
+                     )
+                     ,box(width = 8
+                          ,reactableOutput(outputId = "id.HHI_Substancia_PBeneficiada_BR")
+                     ))
+                   ,fluidRow(
+                     box(title = "Índice Hirchsman-Herfindahl (HHI)"
+                         ,solidHeader = TRUE
+                         ,status = "warning"
+                         ,width = 4
+                         ,height = '215px'
+                         ,plotOutput(outputId = "id.Graf.HHI_Substancia_PBeneficiada_BR", height = "150px"))
+                     ,box(title = Titulo
+                          ,solidHeader = TRUE
+                          ,status = "info"
+                          ,width = 4
+                          ,height = '215px'
+                          ,plotOutput(outputId = "id.Graf.preco_Substancia_PBeneficiada_BR", height = "150px"))
+                     ,box(title = "Coeficiente de Variação (preço)"
+                          ,solidHeader = TRUE
+                          ,status = "info"
+                          ,width = 4
+                          ,height = '215px'
+                          ,plotOutput(outputId = "id.Graf.CV_Substancia_PBeneficiada_BR", height = "150px"))
+                   )
+          ),
+          #_____ tab_HHI UF ---- 
+          tabPanel("UF"
+                   # __________Input Substância ----
+                   ,fluidRow(
+                     box(width = 2
+                         ,pickerInput(
+                           inputId = "id.Substancia.select.Beneficiada.UF"
+                           ,label = "Substância"
+                           ,choices = list(`Substancia` = Substancia)
+                           ,multiple = FALSE
+                           ,selected = "Areia"
+                         )
+                         # __________ Input UF ----
+                         ,pickerInput(
+                           inputId = "id.UF.Beneficiada.select"
+                           ,label = "UF"
+                           ,choices = list(`UF` = uf)
+                           ,multiple = FALSE)
+                         ,actionButton(inputId = "id.Atualizar.button.Beneficiada.UF", label = "Ok")
+                     )
+                     ,box(width = 8
+                          ,reactableOutput(outputId = "id.HHI_Substancia_PBeneficiada_UF")
+                     ))
+                   ,fluidRow(
+                     box(title = "Índice Hirchsman-Herfindahl (HHI)"
+                         ,solidHeader = TRUE
+                         ,status = "warning"
+                         ,width = 4
+                         ,height = '215px'
+                         ,plotOutput(outputId = "id.Graf.HHI_Substancia_PBeneficiada_UF", height = "150px"))
+                     ,box(title = Titulo
+                          ,solidHeader = TRUE
+                          ,status = "info"
+                          ,width = 4
+                          ,height = '215px'
+                          ,plotOutput(outputId = "id.Graf.preco_Substancia_PBeneficiada_UF", height = "150px"))
+                     ,box(title = "Coeficiente de Variação (preço)"
+                          ,solidHeader = TRUE
+                          ,status = "info"
+                          ,width = 4
+                          ,height = '215px'
+                          ,plotOutput(outputId = "id.Graf.CV_Substancia_PBeneficiada_UF", height = "150px"))
+                   )
+          ),
+          #_____ tab_HHI MESO ---- 
+          tabPanel("Mesorregião"
+                   # __________Input Substância ----
+                   ,fluidRow(
+                     box(width = 2
+                         ,pickerInput(
+                           inputId = "id.Substancia.select.Beneficiada.MESO"
+                           ,label = "Substância"
+                           ,choices = list(`Substancia` = Substancia)
+                           ,multiple = FALSE
+                           ,selected = "Areia")
+                         # __________ Input UF.MESO ----
+                         ,pickerInput(
+                           inputId = "id.UF.MESO.Beneficiada.select"
+                           ,label = "UF"
+                           ,choices = list(`UF` = uf)
+                           ,multiple = FALSE)
+                         # __________ Input MESO ----
+                         ,pickerInput(
+                           inputId = "id.MESO.Beneficiada.select"
+                           ,label = "Mesorregião"
+                           ,choices = list(`Mesorregião` = RegiaoIntermediaria)
+                           ,multiple = FALSE)
+                         ,actionButton(inputId = "id.Atualizar.button.Beneficiada.MESO", label = "Ok")
+                     )
+                     ,box(width = 8
+                          ,reactableOutput(outputId = "id.HHI_Substancia_PBeneficiada_MESO"))
+                   )
+                   ,fluidRow(
+                     box(title = "Índice Hirchsman-Herfindahl (HHI)"
+                         ,solidHeader = TRUE
+                         ,status = "warning"
+                         ,width = 4
+                         ,height = '215px'
+                         ,plotOutput(outputId = "id.Graf.HHI_Substancia_PBeneficiada_MESO", height = "150px"))
+                     ,box(title = Titulo
+                          ,solidHeader = TRUE
+                          ,status = "info"
+                          ,width = 4
+                          ,height = '215px'
+                          ,plotOutput(outputId = "id.Graf.preco_Substancia_PBeneficiada_MESO", height = "150px"))
+                     ,box(title = "Coeficiente de Variação (preço)"
+                          ,solidHeader = TRUE
+                          ,status = "info"
+                          ,width = 4
+                          ,height = '215px'
+                          ,plotOutput(outputId = "id.Graf.CV_Substancia_PBeneficiada_MESO", height = "150px"))
+                   )
+          ),
+          #_____ tab_HHI MICRO ---- 
+          tabPanel("Microrregião"
+                   # __________Input Substância ----
+                   ,fluidRow(
+                     box(width = 2
+                         ,pickerInput(
+                           inputId = "id.Substancia.select.Beneficiada.MICRO"
+                           ,label = "Substância"
+                           ,choices = list(`Substancia` = Substancia)
+                           ,multiple = FALSE
+                           ,selected = "Areia")
+                         # __________ Input UF.MICRO ----
+                         ,pickerInput(
+                           inputId = "id.UF.MICRO.Beneficiada.select"
+                           ,label = "UF"
+                           ,choices = list(`UF` = uf)
+                           ,multiple = FALSE)
+                         # __________ Input MICRO ----
+                         ,pickerInput(
+                           inputId = "id.MICRO.Beneficiada.select"
+                           ,label = "Microrregião"
+                           ,choices = list(`Microrregião` = RegiaoImediata)
+                           ,multiple = FALSE)
+                         ,actionButton(inputId = "id.Atualizar.button.Beneficiada.MICRO", label = "Ok")
+                     )
+                     ,box(width = 8
+                          ,reactableOutput(outputId = "id.HHI_Substancia_PBeneficiada_MICRO"))
+                   )
+                   ,fluidRow(
+                     box(title = "Índice Hirchsman-Herfindahl (HHI)"
+                         ,solidHeader = TRUE
+                         ,status = "warning"
+                         ,width = 4
+                         ,height = '215px'
+                         ,plotOutput(outputId = "id.Graf.HHI_Substancia_PBeneficiada_MICRO", height = "150px"))
+                     ,box(title = Titulo
+                          ,solidHeader = TRUE
+                          ,status = "info"
+                          ,width = 4
+                          ,height = '215px'
+                          ,plotOutput(outputId = "id.Graf.preco_Substancia_PBeneficiada_MICRO", height = "150px"))
+                     ,box(title = "Coeficiente de Variação (preço)"
+                          ,solidHeader = TRUE
+                          ,status = "info"
+                          ,width = 4
+                          ,height = '215px'
+                          ,plotOutput(outputId = "id.Graf.CV_Substancia_PBeneficiada_MICRO", height = "150px"))
+                   )
+          ),
+          #_____ tab_HHI MET ---- 
+          tabPanel("Região Metropolitana"
+                   # __________Input Substância ----
+                   ,fluidRow(
+                     box(width = 2
+                         ,pickerInput(
+                           inputId = "id.Substancia.select.Beneficiada.MET"
+                           ,label = "Substância"
+                           ,choices = list(`Substancia` = Substancia)
+                           ,multiple = FALSE
+                           ,selected = "Areia")
+                         # __________ Input UF.MET ----
+                         ,pickerInput(
+                           inputId = "id.UF.MET.Beneficiada.select"
+                           ,label = "UF"
+                           ,choices = list(`UF` = uf)
+                           ,selected = "AL"
+                           ,multiple = FALSE)
+                         # __________ Input MET ----
+                         ,pickerInput(
+                           inputId = "id.MET.Beneficiada.select"
+                           ,label = "Reg. Metropolitana"
+                           ,choices = list(`RegiaoMet` = RegiaoMetropolitana)
+                           ,multiple = FALSE)
+                         ,actionButton(inputId = "id.Atualizar.button.Beneficiada.MET", label = "Ok")
+                     )
+                     ,box(width = 8
+                          ,reactableOutput(outputId = "id.HHI_Substancia_PBeneficiada_MET"))
+                   )
+                   ,fluidRow(
+                     box(title = "Índice Hirchsman-Herfindahl (HHI)"
+                         ,solidHeader = TRUE
+                         ,status = "warning"
+                         ,width = 4
+                         ,height = '215px'
+                         ,plotOutput(outputId = "id.Graf.HHI_Substancia_PBeneficiada_MET", height = "150px"))
+                     ,box(title = Titulo
+                          ,solidHeader = TRUE
+                          ,status = "info"
+                          ,width = 4
+                          ,height = '215px'
+                          ,plotOutput(outputId = "id.Graf.preco_Substancia_PBeneficiada_MET", height = "150px"))
+                     ,box(title = "Coeficiente de Variação (preço)"
+                          ,solidHeader = TRUE
+                          ,status = "info"
+                          ,width = 4
+                          ,height = '215px'
+                          ,plotOutput(outputId = "id.Graf.CV_Substancia_PBeneficiada_MET", height = "150px"))
+                   )
+          )
+        ))
+
+
+
+
+
+
+
+
+
+
+
+
 
 # tab_CR4 ---- 
 ,tabItem(tabName = "tab_CR4"

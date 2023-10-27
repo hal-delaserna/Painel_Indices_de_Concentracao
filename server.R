@@ -150,10 +150,10 @@
     
 #_____ HHI_Substancia_PBeneficiada_BR ----
     HHI_Substancia_PBeneficiada_BR <-
-      eventReactive(input$id.Atualizar.button.BR, {
+      eventReactive(input$id.Atualizar.button.Beneficiada.BR, {
         summarise(
           group_by(
-            MS_Substancia_PBeneficiada_BR[MS_Substancia_PBeneficiada_BR$Substancia.AMB == input$id.Substancia.select, ],
+            MS_Substancia_PBeneficiada_BR[MS_Substancia_PBeneficiada_BR$Substancia.AMB == input$id.Substancia.Beneficiada.select, ],
             Ano.Base.Ral),
           "HHI" = round(10000*concstats_hhi(MS_Substancia, na.rm = TRUE),0),
           "N" = length(CPF.CNPJ.Nucleos),
@@ -165,11 +165,11 @@
     
 #_____ HHI_Substancia_PBeneficiada_UF ----
     HHI_Substancia_PBeneficiada_UF <-
-      eventReactive(input$id.Atualizar.button.UF, {
+      eventReactive(input$id.Atualizar.button.Beneficiada.UF, {
         summarise(
           group_by(
-            MS_Substancia_PBeneficiada_UF[MS_Substancia_PBeneficiada_UF$Substancia.AMB == input$id.Substancia.select.UF & 
-                                            MS_Substancia_PBeneficiada_UF$UF == input$id.UF.select, ],
+            MS_Substancia_PBeneficiada_UF[MS_Substancia_PBeneficiada_UF$Substancia.AMB == input$id.Substancia.select.Beneficiada.UF & 
+                                            MS_Substancia_PBeneficiada_UF$UF == input$id.UF.Beneficiada.select, ],
             Ano.Base.Ral),
           "HHI" = round(10000*concstats_hhi(MS_Substancia, na.rm = TRUE),0),
           "N" = length(CPF.CNPJ.Nucleos),
@@ -181,11 +181,11 @@
 
 #_____ HHI_Substancia_PBeneficiada_MESO ----
     HHI_Substancia_PBeneficiada_MESO <-
-      eventReactive(input$id.Atualizar.button.MESO, {
+      eventReactive(input$id.Atualizar.button.Beneficiada.MESO, {
         summarise(
           group_by(
-            MS_Substancia_PBeneficiada_MESO[MS_Substancia_PBeneficiada_MESO$Substancia.AMB == input$id.Substancia.select.MESO & 
-                                              MS_Substancia_PBeneficiada_MESO$Região.Intermediária.IBGE == input$id.MESO.select, ],
+            MS_Substancia_PBeneficiada_MESO[MS_Substancia_PBeneficiada_MESO$Substancia.AMB == input$id.Substancia.select.Beneficiada.MESO & 
+                                              MS_Substancia_PBeneficiada_MESO$Região.Intermediária.IBGE == input$id.MESO.Beneficiada.select, ],
             Ano.Base.Ral),
           "HHI" = round(10000*concstats_hhi(MS_Substancia, na.rm = TRUE),0),
           "N" = length(CPF.CNPJ.Nucleos),
@@ -199,11 +199,11 @@
     
 #_____ HHI_Substancia_PBeneficiada_MICRO ----
     HHI_Substancia_PBeneficiada_MICRO <-
-      eventReactive(input$id.Atualizar.button.MICRO, {
+      eventReactive(input$id.Atualizar.button.Beneficiada.MICRO, {
         summarise(
           group_by(
-            MS_Substancia_PBeneficiada_MICRO[MS_Substancia_PBeneficiada_MICRO$Substancia.AMB == input$id.Substancia.select.MICRO & 
-                                               MS_Substancia_PBeneficiada_MICRO$Região.Imediata.IBGE == input$id.MICRO.select, ],
+            MS_Substancia_PBeneficiada_MICRO[MS_Substancia_PBeneficiada_MICRO$Substancia.AMB == input$id.Substancia.select.Beneficiada.MICRO & 
+                                               MS_Substancia_PBeneficiada_MICRO$Região.Imediata.IBGE == input$id.MICRO.Beneficiada.select, ],
             Ano.Base.Ral),
           "HHI" = round(10000*concstats_hhi(MS_Substancia, na.rm = TRUE),0),
           "N" = length(CPF.CNPJ.Nucleos),
@@ -216,11 +216,11 @@
     
 #_____ HHI_Substancia_PBeneficiada_MET ----
     HHI_Substancia_PBeneficiada_MET <-
-      eventReactive(input$id.Atualizar.button.MET, {
+      eventReactive(input$id.Atualizar.button.Beneficiada.MET, {
         summarise(
           group_by(
-            MS_Substancia_PBeneficiada_MET[MS_Substancia_PBeneficiada_MET$Substancia.AMB == input$id.Substancia.select.MET & 
-                                             MS_Substancia_PBeneficiada_MET$Reg_Metropolitana == input$id.MET.select, ],
+            MS_Substancia_PBeneficiada_MET[MS_Substancia_PBeneficiada_MET$Substancia.AMB == input$id.Substancia.select.Beneficiada.MET & 
+                                             MS_Substancia_PBeneficiada_MET$Reg_Metropolitana == input$id.MET.Beneficiada.select, ],
             Ano.Base.Ral),
           "HHI" = round(10000*concstats_hhi(MS_Substancia, na.rm = TRUE),0),
           "N" = length(CPF.CNPJ.Nucleos),
